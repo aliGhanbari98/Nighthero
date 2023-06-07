@@ -77,6 +77,7 @@ export const useStyle = makeStyles(theme => ({
       maxWidth: 110,
       minWidth: 110,
       marginTop: 20,
+      borderRadius: 10,
     },
     '& > h2': {
       width: '100%',

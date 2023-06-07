@@ -6,23 +6,27 @@ import { errorAlert } from 'src/helpers/alerts'
 
 import { useStyle } from './style'
 
-const cityOptions = [
-  { key: 'Torino', value: 'TO' },
-  { key: 'Milan', value: 'MI' },
-  { key: 'Rome', value: 'RM' },
-  { key: 'Padova', value: 'PD' },
-  { key: 'Genova', value: 'GN' },
+const languageOptions = [
+  { key: 'EN', value: 'EN' },
+  { key: 'IT', value: 'IT' },
 ]
 
-const StepOne = ({ setStep }) => {
+const currencyOptions = [
+  { key: 'EUR', value: 'EUR' },
+  { key: 'USD', value: 'USD' },
+]
+
+const StepOne = ({ setStep, email, setEmail, password, setPassword }) => {
   const classes = useStyle()
   const [passwordHidden, setPasswordHidden] = useState(true)
   return (
     <div className={classes.stepOneContainer}>
-      <Input placeholder="Email" />
+      <Input value={email} onChange={setEmail} placeholder="Email" />
       <Input
         onIconClick={() => setPasswordHidden(prevValue => !prevValue)}
         icon="./images/hidden-eye.png"
+        value={password}
+        onChange={setPassword}
         placeholder="Password"
         type={passwordHidden ? 'password' : 'text'}
       />
@@ -31,18 +35,32 @@ const StepOne = ({ setStep }) => {
   )
 }
 
-const StepTwo = ({ setStep }) => {
+const StepTwo = ({
+  setStep,
+  firstname,
+  setFirstname,
+  lastname,
+  setLastname,
+  prefix,
+  setPrefix,
+  phoneNumber,
+  setPhoneNumber,
+}) => {
   const classes = useStyle()
   return (
     <div className={classes.stepTwoContainer}>
-      <Input placeholder="Nome" />
-      <Input placeholder="Cognome" />
+      <Input value={firstname} onChange={setFirstname} placeholder="Nome" />
+      <Input value={lastname} onChange={setLastname} placeholder="Cognome" />
       <div className="phoneInputsContainer">
         <div className="prefix">
-          <Input placeholder="Prefisso" />
+          <Input value={prefix} onChange={setPrefix} placeholder="Prefisso" />
         </div>
         <div className="phoneNumber">
-          <Input placeholder="Telefono" />
+          <Input
+            placeholder="Telefono"
+            value={phoneNumber}
+            onChange={setPhoneNumber}
+          />
         </div>
       </div>
       <Button onClick={() => setStep(3)} label="Avanti" />
@@ -50,12 +68,32 @@ const StepTwo = ({ setStep }) => {
   )
 }
 
-const StepThree = ({ navigate }) => {
+const StepThree = ({
+  navigate,
+  language,
+  setLanguage,
+  currency,
+  setCurrency,
+  onRegisterClick,
+}) => {
   const classes = useStyle()
+  const [firstPolicy, setFirstPolicy] = useState(false)
+  const [secondPolicy, setSecondPolicy] = useState(false)
+
   return (
     <div className={classes.stepThreeContainer}>
-      <AutoComplete placeholder="Lingua" />
-      <AutoComplete placeholder="Valuta" />
+      <AutoComplete
+        value={language}
+        onChange={setLanguage}
+        placeholder="Lingua"
+        options={languageOptions}
+      />
+      <AutoComplete
+        value={currency}
+        onChange={setCurrency}
+        placeholder="Valuta"
+        options={currencyOptions}
+      />
       <div className="regulatiosContainer">
         <div className="regulationItem">
           <div className="titleContainer">
@@ -85,12 +123,36 @@ const StepThree = ({ navigate }) => {
         </div>
       </div>
 
-      <Button onClick={() => navigate('/event-selection')} label="Registrati" />
+      <Button
+        onClick={() => {
+          onRegisterClick()
+          navigate('/event-selection')
+        }}
+        label="Registrati"
+      />
     </div>
   )
 }
 
-const Register = ({}) => {
+const Register = ({
+  email,
+  setEmail,
+  password,
+  setPassword,
+  firstname,
+  setFirstname,
+  lastname,
+  setLastname,
+  prefix,
+  setPrefix,
+  phoneNumber,
+  setPhoneNumber,
+  language,
+  setLanguage,
+  currency,
+  setCurrency,
+  onRegisterClick,
+}) => {
   const classes = useStyle()
   const navigate = useNavigate()
 
@@ -120,11 +182,35 @@ const Register = ({}) => {
         </span>
         <div className="formContainer">
           {step === 1 ? (
-            <StepOne setStep={setStep} />
+            <StepOne
+              setStep={setStep}
+              email={email}
+              setEmail={setEmail}
+              password={password}
+              setPassword={setPassword}
+            />
           ) : step === 2 ? (
-            <StepTwo setStep={setStep} />
+            <StepTwo
+              setStep={setStep}
+              firstname={firstname}
+              setFirstname={setFirstname}
+              lastname={lastname}
+              setLastname={setLastname}
+              prefix={prefix}
+              setPrefix={setPrefix}
+              phoneNumber={phoneNumber}
+              setPhoneNumber={setPhoneNumber}
+            />
           ) : (
-            <StepThree navigate={navigate} setStep={setStep} />
+            <StepThree
+              navigate={navigate}
+              setStep={setStep}
+              language={language}
+              setLanguage={setLanguage}
+              currency={currency}
+              setCurrency={setCurrency}
+              onRegisterClick={onRegisterClick}
+            />
           )}
         </div>
       </div>

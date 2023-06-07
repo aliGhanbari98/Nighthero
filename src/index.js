@@ -7,12 +7,12 @@ import 'src/setup/config/axios'
 import App from './scenes/app'
 
 ReactDOM.render(
-	<React.StrictMode>
-		<ReduxProvider>
-			<ThemeProvider>
-				<App />
-			</ThemeProvider>
-		</ReduxProvider>
-	</React.StrictMode>,
-	document.getElementById('root')
+  <React.StrictMode>
+    <ReduxProvider>
+      <ThemeProvider>
+        <App />
+      </ThemeProvider>
+    </ReduxProvider>
+  </React.StrictMode>,
+  document.getElementById('root'),
 )

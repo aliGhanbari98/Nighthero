@@ -6,7 +6,14 @@ import { errorAlert } from 'src/helpers/alerts'
 
 import { useStyle } from './style'
 
-const Login = ({ onClose }) => {
+const Login = ({
+  onClose,
+  username,
+  setUsername,
+  password,
+  setPassword,
+  onLoginClick,
+}) => {
   const classes = useStyle()
   const navigate = useNavigate()
 
@@ -19,12 +26,23 @@ const Login = ({ onClose }) => {
         <span onClick={() => navigate('/event-selection')} className="title">
           Accedi
         </span>
-        <Input placeholder="Email" />
-        <Input type="password" placeholder="Password" />
+        <Input value={username} onChange={setUsername} placeholder="Email" />
+        <Input
+          value={password}
+          onChange={setPassword}
+          type="password"
+          placeholder="Password"
+        />
         <div className="textButtonContainer">
           <span className="passwordForgotten">Password dimenticata</span>
         </div>
-        <Button onClick={() => navigate('/event-selection')} label="Accedi" />
+        <Button
+          onClick={() => {
+            onLoginClick()
+            navigate('/event-selection')
+          }}
+          label="Accedi"
+        />
         <div className="textButtonContainer registerButtonContainer">
           <span onClick={() => navigate('/register')} className="register">
             Registrati

@@ -16,7 +16,13 @@ const cityOptions = [
   { key: 'Genova', value: 'GN' },
 ]
 
-const Home = ({ loginModalExpanded, setLoginModalexpanded }) => {
+const Home = ({
+  loginModalExpanded,
+  setLoginModalexpanded,
+  selectedCity,
+  selectedEventType,
+  onSearchClick,
+}) => {
   const classes = useStyle()
   const navigate = useNavigate()
 
@@ -40,7 +46,10 @@ const Home = ({ loginModalExpanded, setLoginModalexpanded }) => {
         message: '',
         detail: 'Seleziona la città del tuo evento',
       })
-    else navigate('/event-selection')
+    else {
+      onSearchClick(city, event)
+      navigate('/event-selection')
+    }
   }
 
   return (
@@ -70,11 +79,14 @@ const Home = ({ loginModalExpanded, setLoginModalexpanded }) => {
         </p>
         <div className="searchBar">
           <div className="partySelectContainer">
-            <PartySelect selectedEvent={event} setSelectedEvent={setEvent} />
+            <PartySelect
+              selectedEvent={event || selectedEventType}
+              setSelectedEvent={setEvent}
+            />
           </div>
           <div className="autoCompleteContainer">
             <AutoComplete
-              value={city}
+              value={city || selectedCity}
               onChange={val => setCity(val)}
               options={cityOptions}
               placeholder="Citta"

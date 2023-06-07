@@ -2,8 +2,8 @@ import { createSlice } from '@reduxjs/toolkit'
 import { errorAlert } from 'src/helpers/alerts'
 
 const initialState = {
-  type: '',
-  city: '',
+  selectedEventType: '',
+  selectedCity: '',
   filteredTypes: [{ title: 'Serata di ballo', image: 'danceNight.jpg', id: 1 }],
   selectedTimeSlots: [],
   selectedDate: '',
@@ -44,7 +44,9 @@ const restaurantSlice = createSlice({
         modifiedTimeSlots = modifiedTimeSlots.filter(
           item => item.id !== foundItem.id,
         )
-      else modifiedTimeSlots.push(payload)
+      else {
+        if (modifiedTimeSlots.length < 1) modifiedTimeSlots.push(payload)
+      }
 
       return {
         ...state,
@@ -55,11 +57,18 @@ const restaurantSlice = createSlice({
       ...state,
       selectedDate: payload,
     }),
-    loadSelectedPeople: (state, { payload }) =>
-      console.log(payload) || {
-        ...state,
-        selectedPeople: payload,
-      },
+    loadSelectedPeople: (state, { payload }) => ({
+      ...state,
+      selectedPeople: payload,
+    }),
+    loadSelectedCity: (state, { payload }) => ({
+      ...state,
+      selectedCity: payload,
+    }),
+    loadSelectedEventType: (state, { payload }) => ({
+      ...state,
+      selectedEventType: payload,
+    }),
   },
 })
 
@@ -71,9 +80,13 @@ export const loadFilteredTypes = actions.loadFilteredTypes
 export const loadSelectedTimeSlots = actions.loadSelectedTimeSlots
 export const loadSelectedDate = actions.loadSelectedDate
 export const loadSelectedPeople = actions.loadSelectedPeople
+export const loadSelectedCity = actions.loadSelectedCity
+export const loadSelectedEventType = actions.loadSelectedEventType
 
 // VIEW
 export const eventFilteredTypesView = state => state.event.filteredTypes
 export const eventSelectedTimeSlots = state => state.event.selectedTimeSlots
 export const eventSelectedDateView = state => state.event.selectedDate
 export const eventSelectedPeopleView = state => state.event.selectedPeople
+export const eventSelectedCityView = state => state.event.selectedCity
+export const eventSelectedEventTypeView = state => state.event.selectedEventType

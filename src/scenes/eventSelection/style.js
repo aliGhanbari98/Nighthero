@@ -58,7 +58,8 @@ export const useStyle = makeStyles(theme => ({
       display: 'flex',
       flexDirection: 'column',
       height: '100%',
-      overflowX: 'hidden',
+      overflowX: 'auto',
+      overflowY: 'auto',
       '& > .filterBar': {
         display: 'flex',
         height: 40,
@@ -184,7 +185,7 @@ export const useStyle = makeStyles(theme => ({
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
-        overflowY: 'auto',
+        // overflowY: 'auto',
         paddingBottom: 100,
       },
     },
