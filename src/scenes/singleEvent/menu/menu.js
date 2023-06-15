@@ -8,84 +8,63 @@ import { errorAlert } from 'src/helpers/alerts'
 
 import { useStyle } from './style'
 
-const Menu = () => {
+const groupMenuItems = resMenu => {
+  const groupedProducts = {}
+  resMenu?.products?.forEach(product => {
+    if (!groupedProducts[product.idCategory]) {
+      groupedProducts[product.idCategory] = []
+    }
+    groupedProducts[product.idCategory].push(product)
+  })
+  return groupedProducts
+}
+
+const Menu = ({ data, resId, resName, resCategory }) => {
   const classes = useStyle()
   const navigate = useNavigate()
 
-  return (
+  const categories = data?.categories
+
+  const groupedItems = groupMenuItems(data)
+
+  console.log({ data })
+
+  console.log(groupedItems)
+  return !data ? null : (
     <div className={classes.container}>
       <div className="header">
         <input placeholder="cerca" />
       </div>
       <div className="body">
         <div className="nameContainer">
-          <span className="name">Opposto</span>
-          <span className="type">Discoteca</span>
+          <span className="name">{resName}</span>
+          <span className="type">{resCategory}</span>
         </div>
         <span className="menuText">Menu</span>
         <div className="menuContainer">
-          <div>
-            <span className="category">Analcolici</span>
-            <div className="itemsContainer">
-              <div className="item">
-                <span>Succo alla pera in bottiglia</span>
-                <div className="lineContainer">
-                  <hr />
+          {categories.map(cat => {
+            return (
+              <div>
+                <span className="category">{cat.name}</span>
+                <div className="itemsContainer">
+                  {groupedItems[cat.id].map(({ name, price }) => (
+                    <div className="item">
+                      <span>{name}</span>
+                      <div className="lineContainer">
+                        <hr />
+                      </div>
+                      <span>€{price}.00</span>
+                    </div>
+                  ))}
                 </div>
-                <span>€3.00</span>
               </div>
-              <div className="item">
-                <span>Succo alla pera in bottiglia</span>
-                <div className="lineContainer">
-                  <hr />
-                </div>
-                <span>€3.00</span>
-              </div>
-              <div className="item">
-                <span>Succo alla pera in bottiglia</span>
-                <div className="lineContainer">
-                  <hr />
-                </div>
-                <span>€3.00</span>
-              </div>
-            </div>
-          </div>
-          <div>
-            <span className="category">Alcolici amari</span>
-            <div className="itemsContainer">
-              <div className="item">
-                <span>Amaro del capo</span>
-                <div className="lineContainer">
-                  <hr />
-                </div>
-                <span>€7.00</span>
-              </div>
-              <div className="item">
-                <span>Amaro del capo</span>
-                <div className="lineContainer">
-                  <hr />
-                </div>
-                <span>€7.00</span>
-              </div>
-              <div className="item">
-                <span>Amaro del capo</span>
-                <div className="lineContainer">
-                  <hr />
-                </div>
-                <span>€7.00</span>
-              </div>
-              <div className="item">
-                <span>Amaro del capo</span>
-                <div className="lineContainer">
-                  <hr />
-                </div>
-                <span>€7.00</span>
-              </div>
-            </div>
-          </div>
+            )
+          })}
         </div>
         <div className="buttonContainer">
-          <span onClick={() => navigate('/single-event')}>Torna al locale</span>
+          <span onClick={() => navigate(`/single-event/${resId}`)}>
+            Torna al locale
+          </span>
         </div>
       </div>
     </div>

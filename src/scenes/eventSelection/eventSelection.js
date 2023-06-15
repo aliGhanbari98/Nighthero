@@ -8,39 +8,59 @@ import CalendarModal from './modals/calendar/calendarModal'
 import TimeModal from './modals/time/timeModal'
 import PeopleModal from './modals/people/peopleModal'
 
+import { checkForMatches } from 'src/helpers/functions'
+
 import { useStyle } from './style'
 
-const FoundItem = ({ onClick }) => {
+const priceRangesDic = {
+  L: 1,
+  M: 2,
+  H: 3,
+}
+
+const FoundItem = ({ onClick, data, selectedNightTypes }) => {
   const classes = useStyle()
+
+  const { category, details, hasGift, id, image, location, name, nightTypes } =
+    data
 
   return (
     <div className={classes.foundItem}>
-      <div onClick={onClick} className="left">
+      <div onClick={() => onClick(id)} className="left">
         <img alt="event" src="./images/danceNight.jpg" />
-        <span>Terazze bar</span>
+        <span>{category.value}</span>
       </div>
       <div className="right">
         <div className="nameContainer">
-          <span className="name">Opposto</span>
-          <span className="gift">Gift</span>
+          <span className="name">{name}</span>
+          {hasGift && <span className="gift">Gift</span>}
         </div>
         <div className="infoContainer">
-          <div className="address">Piazza Vittorio Veneto 1, Torino</div>
+          <div className="address">{location.address}</div>
           <div className="price">
-            <img alt="eruo" src="./images/euro.png" />
-            <img alt="eruo" src="./images/euro.png" />
+            {Array(priceRangesDic[details.priceRange])
+              .fill(details.priceRange)
+              .map(() => (
+                <img alt="eruo" src="./images/euro.png" />
+              ))}
           </div>
-          <div className="rate">
+          {/* <div className="rate">
             <img alt="eruo" src="./images/star.png" />
             <span>8/10</span>
-          </div>
+          </div> */}
         </div>
         <div className="eventList">
-          <span className="firstItem">Serata di ballo</span>
-          <span>Serata di ballo</span>
-          <span>Serata di ballo</span>
-          <span>Serata di ballo</span>
-          <span>Serata di ballo</span>
+          {nightTypes
+            .sort((a, b) => a.rank - b.rank)
+            .map(({ value, id }, i) => (
+              <span
+                className={`${i === 0 ? 'firstItem' : ''} ${
+                  checkForMatches({ id }, selectedNightTypes) ? 'selected' : ''
+                }`}
+              >
+                {value}
+              </span>
+            ))}
         </div>
       </div>
     </div>
@@ -55,16 +75,23 @@ const EventSelection = ({
   selectedPeople,
   onDateChange,
   onPeopleChange,
+  restaurantsData = [],
+  selectedNightTypes,
+  restaurantsCategories = [],
+  selectedCategories,
+  onCategoriesChange,
+  searchedName,
+  setSearchedName,
+  searchHeaderExpanded,
+  setSearchHeaderExpanded,
+  onHeaderModalClose,
 }) => {
   const navigate = useNavigate()
 
-  const [searchHeaderExpanded, setSearchHeaderExpanded] = useState(false)
   const [calendarModalOpen, setCalendarModalOpen] = useState(false)
   const [timeModalOpen, setTimeModalOpen] = useState(false)
   const [peopleModalOpen, setPeopleModalOpen] = useState(false)
 
-  const [searchedEventType, setSearchedEventType] = useState('Locale / tipo')
-  const [searchedAddress, setSearchedAddress] = useState('Torino, TO, Italia')
   const [selectedFilterTab, setSelectedFilterTab] = useState(0)
 
   const onDateConfirm = date => {
@@ -92,9 +119,11 @@ const EventSelection = ({
     <div className={classes.container}>
       {searchHeaderExpanded && (
         <MyModal
-          handleClose={() => setSearchHeaderExpanded(false)}
+          handleClose={() => {
+            onHeaderModalClose(false)
+          }}
           open={searchHeaderExpanded}
-          position={{ top: 81, left: '50%' }}
+          position={{ top: 36, left: '50%' }}
           opacity={0.9}
           backgroundColor="#fede11"
           fullWidth
@@ -102,7 +131,7 @@ const EventSelection = ({
           <div className={classes.headerModalContainer}>
             <div className="left">
               <img
-                onClick={() => setSearchHeaderExpanded(false)}
+                onClick={() => onHeaderModalClose(false)}
                 alt="close"
                 src="./images/close.png"
               />
@@ -111,11 +140,12 @@ const EventSelection = ({
               <div className="searchInputContainer">
                 <img alt="search" src="./images/search.png" />
                 <input
-                  onChange={e => setSearchedEventType(e.target.value)}
-                  value={searchedEventType}
+                  onChange={e => setSearchedName(e.target.value)}
+                  value={searchedName}
+                  placeholder="Nome del ristorante"
                 />
               </div>
-              <div className="locationInputContainer">
+              {/* <div className="locationInputContainer">
                 <img alt="address" src="./images/pin.png" />
                 <input
                   onChange={e => setSearchedAddress(e.target.value)}
@@ -128,7 +158,7 @@ const EventSelection = ({
                   onChange={e => setSearchedEventType(e.target.value)}
                   value={searchedEventType}
                 />
-              </div>
+              </div> */}
             </div>
           </div>
         </MyModal>
@@ -209,40 +239,44 @@ const EventSelection = ({
             <span>{selectedTypes.length}</span>
           </div>
           <div className="itemsContainer">
-            <div className="firstItem" onClick={() => {}}>
-              <img alt="dance-night" src="./images/danceNight.jpg" />
-              <span>Discoteca</span>
-            </div>
-            <div className="singleItem" onClick={() => {}}>
-              <img alt="dance-night" src="./images/danceNight.jpg" />
-              <span>Discoteca</span>
-            </div>
-            <div className="singleItem" onClick={() => {}}>
-              <img alt="dance-night" src="./images/danceNight.jpg" />
-              <span>Discoteca</span>
-            </div>
-            <div className="singleItem" onClick={() => {}}>
-              <img alt="dance-night" src="./images/danceNight.jpg" />
-              <span>Discoteca</span>
-            </div>
-            <div className="singleItem" onClick={() => {}}>
-              <img alt="dance-night" src="./images/danceNight.jpg" />
-              <span>Discoteca</span>
-            </div>
+            {restaurantsCategories.length
+              ? restaurantsCategories.map((item, index) => (
+                  <div
+                    className={`${index === 0 ? 'firstItem' : 'singleItem'} ${
+                      item.id === selectedCategories?.id ? 'selected' : ''
+                    } `}
+                    onClick={() => onCategoriesChange(item)}
+                  >
+                    <img alt="dance-night" src="./images/danceNight.jpg" />
+                    <span>{item.value}</span>
+                  </div>
+                ))
+              : null}
           </div>
         </div>
         <hr className="line" />
         <div className="filterTextContainer">
-          <span>250 locali filtrati per te</span>
+          <span>{restaurantsData.length} locali filtrati per te</span>
         </div>
         <div className="foundItemsContainer">
+          {restaurantsData.length
+            ? restaurantsData.map(item => (
+                <FoundItem
+                  data={item}
+                  onClick={id => {
+                    navigate(`/single-event/${id}`)
+                  }}
+                  selectedNightTypes={selectedNightTypes}
+                />
+              ))
+            : null}
+          {/* <FoundItem onClick={() => navigate('/single-event')} />
           <FoundItem onClick={() => navigate('/single-event')} />
           <FoundItem onClick={() => navigate('/single-event')} />
           <FoundItem onClick={() => navigate('/single-event')} />
           <FoundItem onClick={() => navigate('/single-event')} />
           <FoundItem onClick={() => navigate('/single-event')} />
-          <FoundItem onClick={() => navigate('/single-event')} />
-          <FoundItem onClick={() => navigate('/single-event')} />
+          <FoundItem onClick={() => navigate('/single-event')} /> */}
         </div>
       </div>
     </div>

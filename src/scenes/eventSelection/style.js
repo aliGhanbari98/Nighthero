@@ -145,6 +145,7 @@ export const useStyle = makeStyles(theme => ({
             position: 'relative',
             marginLeft: 10,
             cursor: 'pointer',
+            borderRadius: 10,
             '& > img': {
               maxWidth: 100,
               minWidth: 100,
@@ -153,15 +154,24 @@ export const useStyle = makeStyles(theme => ({
               opacity: 0.7,
             },
             '& > span': {
+              // position: 'absolute',
+              // top: 20,
+              // left: 17,
+              // color: 'white',
+              // fontWeight: 'bold',
               position: 'absolute',
-              top: 20,
-              left: 17,
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
               color: 'white',
               fontWeight: 'bold',
             },
           },
           '& > .firstItem': {
             marginLeft: 0,
+          },
+          '& > .selected': {
+            border: `1px solid ${theme.palette.secondary.main}`,
           },
         },
       },
@@ -261,7 +271,7 @@ export const useStyle = makeStyles(theme => ({
           display: 'flex',
           alignItems: 'center',
           fontSize: 16,
-
+          paddingBottom: 5,
           '& > img': {
             maxHeight: 15,
           },
@@ -283,16 +293,23 @@ export const useStyle = makeStyles(theme => ({
         alignItems: 'center',
         overflowX: 'auto',
         paddingRight: 5,
+        height: 30,
         '& > span': {
-          padding: 3,
+          padding: '3px',
           borderRadius: 10,
           maxHeight: 30,
-          minWidth: 120,
+          // minWidth: 120,
           marginLeft: 5,
           boxShadow: '1px 1px 1px 1px rgba(0, 0, 255, .1);',
+          whiteSpace: 'nowrap',
+          display: 'flex',
+          justifyContent: 'center',
         },
         '& > .firstItem': {
           marginLeft: 0,
+        },
+
+        '& > .selected': {
           border: `1px solid ${theme.palette.secondary.main}`,
         },
       },

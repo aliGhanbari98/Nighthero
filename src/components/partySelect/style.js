@@ -42,6 +42,7 @@ export const useStyle = makeStyles(theme => ({
         padding: '10px 10px',
         width: '100%',
         cursor: 'pointer',
+        backgroundColor: 'white',
         // '& :not(:first-child)': {
         //   padding: '0 0',
         // },
@@ -57,22 +58,10 @@ export const useStyle = makeStyles(theme => ({
           flex: 1,
         },
       },
-      '& > .item_1': {
-        backgroundColor: ({ selectedEvent }) =>
-          selectedEvent === 1 ? 'lightgrey' : 'white',
+      '& > .selected': {
+        backgroundColor: 'lightgrey',
       },
-      '& > .item_2': {
-        backgroundColor: ({ selectedEvent }) =>
-          selectedEvent === 2 ? 'lightgrey' : 'white',
-      },
-      '& > .item_3': {
-        backgroundColor: ({ selectedEvent }) =>
-          selectedEvent === 3 ? 'lightgrey' : 'white',
-      },
-      '& > .item_4': {
-        backgroundColor: ({ selectedEvent }) =>
-          selectedEvent === 4 ? 'lightgrey' : 'white',
-      },
+
       '& > .otherOption': {
         display: 'flex',
         justifyContent: 'center',

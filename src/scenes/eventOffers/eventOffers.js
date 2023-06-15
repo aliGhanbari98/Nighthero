@@ -1,37 +1,51 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Button } from 'src/components'
 import { useStyle } from './style'
 
-const DetailsCard = ({ hidden, selectedOfferWidth }) => {
+const DetailsCard = ({
+  hidden,
+  selectedOfferWidth,
+  data,
+  selectedPeople,
+  discount,
+}) => {
   const classes = useStyle({ hidden, selectedOfferWidth })
+  const { people, price } = data
+  const finalPrice = Math.ceil(selectedPeople / people) * price
 
   return (
     <div className={classes.detailsCard}>
       <div className="persons">
         <san className="title">N. persone</san>
-        <san className="count">25</san>
+        <san className="count">{selectedPeople}</san>
       </div>
       <div className="packages">
         <san>N. paccheto prive</san>
-        <san>5</san>
+        <san>{people}</san>
       </div>
       <div className="total">
         <span className="title">Tot :</span>
-        <span className="price">€ 800</span>
+        <span className="price">€ {finalPrice}</span>
       </div>
       <div className="earlyPayment">
-        <span className="title">-20% se ordini entro 30 minuti</span>
-        <span className="price">€ 640</span>
+        <span className="title">-{discount}% se ordini in anticipo</span>
+        <span className="price">€ {finalPrice - 0.2 * finalPrice}</span>
       </div>
     </div>
   )
 }
 
-const EventOffers = ({}) => {
+const EventOffers = ({
+  selectedPeople,
+  resData,
+  eventData,
+  onConfirmClick,
+  confirmedOffer,
+}) => {
   const navigate = useNavigate()
   const [selectedOffer, setSelectedOffer] = useState(0)
-  const [selectedOfferWidth, setSelectedOfferWidth] = useState(100)
+  const [selectedOfferWidth, setSelectedOfferWidth] = useState(160)
   const classes = useStyle({ selectedOffer, selectedOfferWidth })
 
   const onOfferClick = (elId, offerId) => {
@@ -40,84 +54,68 @@ const EventOffers = ({}) => {
     setSelectedOfferWidth(element.offsetWidth)
   }
 
+  useEffect(() => {
+    setSelectedOffer(confirmedOffer)
+  }, [confirmedOffer])
+
   return (
     <div className={classes.container}>
       <div className="photoContainer">
         <img alt="place" src="./images/danceNight.jpg" />
         <div
-          onClick={() => navigate('/single-event')}
+          onClick={() => navigate('/event-details')}
           className="closeButtonContainer"
         >
           <img alt="gallery" src="./images/close.png" />
         </div>
         <div className="infoContainer">
-          <h2>Opposto</h2>
-          <span>Piazza Vittorio Venetto 1, Torino</span>
+          <h2>{resData?.restaurant.name}</h2>
+          <span>{resData?.restaurant.location.address}</span>
           <span>+39 338 3135 436</span>
         </div>
         <span className="description">Selezina quello di cui hai bisogno</span>
       </div>
       <div className="body">
-        <div className="offerContainer">
-          <div
-            id="id_1"
-            onClick={() => onOfferClick('id_1', 1)}
-            className={`offer ${selectedOffer === 1 && 'selected'}`}
-          >
-            <div className="top">
-              <span className="title">Prevendita</span>
-              <span className="price">€ 15</span>
-              <span className="count">x1</span>
+        {eventData?.prices.map(item => (
+          <div className="offerContainer">
+            <div
+              id={`id_${item.id}`}
+              onClick={() => onOfferClick(`id_${item.id}`, item)}
+              className={`offer ${selectedOffer.id === item.id && 'selected'}`}
+            >
+              <div className="top">
+                <span className="title">{item.type}</span>
+                <span className="price">€ {item.price}</span>
+                <span className="count">x{item.people}</span>
+              </div>
+              <div className="bottom">{item.description}</div>
             </div>
-            <div className="bottom">Entrata + drink omaggio</div>
+            {selectedOffer.id === item.id && (
+              <DetailsCard
+                discount={eventData?.discount}
+                selectedPeople={selectedPeople}
+                data={item}
+                hidden
+              />
+            )}
+            {selectedOffer.id === item.id && (
+              <DetailsCard
+                discount={eventData?.discount}
+                selectedPeople={selectedPeople}
+                data={item}
+                selectedOfferWidth={selectedOfferWidth}
+              />
+            )}
           </div>
-          {selectedOffer === 1 && <DetailsCard hidden />}
-          {selectedOffer === 1 && (
-            <DetailsCard selectedOfferWidth={selectedOfferWidth} />
-          )}
-        </div>
-        <div className="offerContainer">
-          <div
-            id="id_2"
-            onClick={e => onOfferClick('id_2', 2)}
-            className={`offer ${selectedOffer === 2 && 'selected'}`}
-          >
-            <div className="top">
-              <span className="title">Tavolo</span>
-              <span className="price">€ 20</span>
-              <span className="count">x1</span>
-            </div>
-            <div className="bottom">Entrata + drink + area tavoli</div>
-          </div>
-          {selectedOffer === 2 && <DetailsCard hidden />}
-          {selectedOffer === 2 && (
-            <DetailsCard selectedOfferWidth={selectedOfferWidth} />
-          )}
-        </div>
-        <div className="offerContainer">
-          <div
-            id="id_3"
-            onClick={e => onOfferClick('id_3', 3)}
-            className={`offer ${selectedOffer === 3 && 'selected'}`}
-          >
-            <div className="top">
-              <span className="title">Prevendita</span>
-              <span className="price">€ 160</span>
-            </div>
-            <div className="bottom">
-              Entrata + sala privè e tavolo + belvedere 1L x 5 persone
-            </div>
-          </div>
-          {selectedOffer === 3 && <DetailsCard hidden />}
-          {selectedOffer === 3 && (
-            <DetailsCard selectedOfferWidth={selectedOfferWidth} />
-          )}
-        </div>
+        ))}
       </div>
-      {selectedOffer !== 0 && (
+      {selectedOffer.id !== 0 && (
         <div className="buttonContainer">
           <Button
-            onClick={() => navigate('/booking-method')}
+            onClick={() => {
+              onConfirmClick(selectedOffer)
+              navigate('/booking-method')
+            }}
             label="Vai a prenota"
           />
         </div>

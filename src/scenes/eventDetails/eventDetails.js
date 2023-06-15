@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { DatePicker, Button } from 'src/components'
 import { errorAlert } from 'src/helpers/alerts'
+import { extractTimeslots } from 'src/helpers/functions'
 import { useStyle } from './style'
 
 const timeSlots = [
@@ -27,6 +28,7 @@ const EventDetails = ({
   selectedPeople,
   onDateChange,
   onPeopleChange,
+  resData,
 }) => {
   const navigate = useNavigate()
   const [step, setStep] = useState(1)
@@ -52,14 +54,14 @@ const EventDetails = ({
       <div className="photoContainer">
         <img alt="place" src="./images/danceNight.jpg" />
         <div
-          onClick={() => navigate('/single-event')}
+          onClick={() => navigate(`/single-event/${resData?.restaurant.id}`)}
           className="closeButtonContainer"
         >
           <img alt="gallery" src="./images/close.png" />
         </div>
         <div className="infoContainer">
-          <h2>Opposto</h2>
-          <span>Piazza Vittorio Venetto 1, Torino</span>
+          <h2>{resData?.restaurant.name}</h2>
+          <span>{resData?.restaurant.location.address}</span>
           <span>+39 338 3135 436</span>
         </div>
         <div className="filterBar">
@@ -103,11 +105,11 @@ const EventDetails = ({
             <DatePicker date={selectedDate} setDate={onDateChange} />
           </div>
         )}
-        {step === 2 && (
+        {step === 2 && resData && (
           <div className="time">
             <h4>Seleziona tra le fasce orarie disponibili</h4>
             <div className="itemsContainer">
-              {timeSlots.map(item => (
+              {extractTimeslots(resData?.timetable).map(item => (
                 <span
                   className={`${
                     checkForMatches(item, selectedTimeSlots) && 'selected'

@@ -168,9 +168,13 @@ export const useStyle = makeStyles(theme => ({
       },
     },
     '& > .earlyPayment': {
+      width: '100%',
+      diplay: 'flex',
+      justifyContent: 'space-between',
       '& > .title': {
         color: theme.palette.ui.green,
-        maxWidth: 140,
+        fontSize: 13,
+        maxWidth: 80,
       },
       '& > .price': {
         fontSize: 18,

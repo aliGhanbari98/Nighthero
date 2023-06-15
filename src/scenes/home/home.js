@@ -5,16 +5,7 @@ import SearchSVG from 'src/assets/icons/search.svg'
 import { AutoComplete, Button, PartySelect } from 'src/components'
 import Login from './Login'
 import { errorAlert } from 'src/helpers/alerts'
-
 import { useStyle } from './style'
-
-const cityOptions = [
-  { key: 'Torino', value: 'TO' },
-  { key: 'Milan', value: 'MI' },
-  { key: 'Rome', value: 'RM' },
-  { key: 'Padova', value: 'PD' },
-  { key: 'Genova', value: 'GN' },
-]
 
 const Home = ({
   loginModalExpanded,
@@ -22,6 +13,8 @@ const Home = ({
   selectedCity,
   selectedEventType,
   onSearchClick,
+  eventTypes,
+  cities,
 }) => {
   const classes = useStyle()
   const navigate = useNavigate()
@@ -48,7 +41,7 @@ const Home = ({
       })
     else {
       onSearchClick(city, event)
-      navigate('/event-selection')
+      navigate(`/event-selection`)
     }
   }
 
@@ -80,6 +73,7 @@ const Home = ({
         <div className="searchBar">
           <div className="partySelectContainer">
             <PartySelect
+              items={eventTypes}
               selectedEvent={event || selectedEventType}
               setSelectedEvent={setEvent}
             />
@@ -87,8 +81,13 @@ const Home = ({
           <div className="autoCompleteContainer">
             <AutoComplete
               value={city || selectedCity}
-              onChange={val => setCity(val)}
-              options={cityOptions}
+              onChange={val => {
+                setCity(val)
+              }}
+              options={cities?.map(({ id, value }) => ({
+                key: value,
+                value: id,
+              }))}
               placeholder="Citta"
             />
           </div>

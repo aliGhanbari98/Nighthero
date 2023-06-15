@@ -7,6 +7,7 @@ import {
   eventSelectedDateView,
   loadSelectedPeople,
   eventSelectedPeopleView,
+  eventSelectedRestaurantView,
 } from '../_slice/event.slice.js'
 
 export default () => {
@@ -19,11 +20,13 @@ export default () => {
 
   const selectedDate = useSelector(eventSelectedDateView)
   const selectedPeople = useSelector(eventSelectedPeopleView)
+  const restaurantData = useSelector(eventSelectedRestaurantView)
 
   const onDateChange = newDate => dispatch(loadSelectedDate(newDate))
   const onPeopleChange = newPeople => {
     dispatch(loadSelectedPeople(newPeople))
   }
+
   return (
     <EventDetails
       handleTimeSlot={handleTimeSlot}
@@ -32,6 +35,7 @@ export default () => {
       selectedPeople={selectedPeople}
       onDateChange={onDateChange}
       onPeopleChange={onPeopleChange}
+      resData={restaurantData}
     />
   )
 }

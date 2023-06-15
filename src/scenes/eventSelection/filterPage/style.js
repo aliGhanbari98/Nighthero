@@ -137,9 +137,13 @@ export const useStyle = makeStyles(theme => ({
           padding: 5,
           boxShadow: '2px 2px 2px 2px rgba(0, 0, 255, .1);',
           borderRadius: 7,
-          maxWidth: 80,
-          minWidth: 80,
+          minWidth: 100,
+          maxWidth: 110,
+          maxHeight: 40,
           cursor: 'pointer',
+        },
+        '& > .selected': {
+          border: `2px solid ${theme.palette.secondary.main}`,
         },
         '& >*:not(:first-child)': {
           marginLeft: 10,

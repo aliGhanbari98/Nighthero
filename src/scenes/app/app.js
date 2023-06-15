@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { viewIsLoading } from '../_slice/view.slice'
 import Home from '../home'
 import EventSelection from '../eventSelection'
@@ -7,7 +7,7 @@ import FilterPage from '../eventSelection/filterPage'
 import SingleEvent from '../singleEvent'
 import Menu from '../singleEvent/menu'
 import EventDetails from '../eventDetails'
-import EventOffers from '../eventOffers/eventOffers'
+import EventOffers from '../eventOffers'
 import BookingMethod from '../bookingMethod'
 import UpcomingEvents from '../singleEvent/upcomingEvents'
 import Payment from '../payment'
@@ -21,18 +21,29 @@ import {
   useLocation,
   HashRouter,
 } from 'react-router-dom'
+import { getConstantsReq } from 'src/services/constants'
+import { loadConstants, eventSelectedCityView } from '../_slice/event.slice'
 import { useStyle } from './style'
 
 const Body = () => {
   const navigate = useNavigate()
   const { pathname } = useLocation()
+  const dispatch = useDispatch()
+
+  const selectedCity = useSelector(eventSelectedCityView)
 
   useEffect(() => {
-    if (pathname.endsWith('/new')) navigate('/technical-user/new')
-    if (pathname.endsWith('/search')) navigate('/search')
-    if (pathname.endsWith('/success')) navigate('/success')
-    if (pathname === '/') return
-    else navigate(pathname)
+    // if (pathname.endsWith('/search')) navigate('/search')
+    // if (pathname.endsWith('/success')) navigate('/success')
+    // if (pathname === '/') return
+    // else navigate(pathname)
+    if (!selectedCity.value) {
+      navigate('/')
+      return
+    }
+    getConstantsReq().then(data => {
+      dispatch(loadConstants(data))
+    })
   }, [])
 
   return (
@@ -47,11 +58,11 @@ const Body = () => {
       <Route exact path="/filter" name="Filter" element={<FilterPage />} />
       <Route
         exact
-        path="/single-event"
+        path="/single-event/:resId"
         name="Single Event"
         element={<SingleEvent />}
       />
-      <Route exact path="/menu" name="Menu" element={<Menu />} />
+      <Route exact path="/menu/:resId" name="Menu" element={<Menu />} />
       <Route
         exact
         path="/event-details"

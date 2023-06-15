@@ -2,19 +2,48 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { MyModal, Button } from 'src/components'
+import { checkForMatches } from 'src/helpers/functions'
 
 import { useStyle } from './style'
 
-const SingleEvent = () => {
+const extractFirstItemOfMenu = resMenu => {
+  const groupedProducts = {}
+  resMenu.products?.forEach(product => {
+    if (!groupedProducts[product.idCategory]) {
+      groupedProducts[product.idCategory] = []
+    }
+    groupedProducts[product.idCategory].push(product)
+  })
+
+  const categoriesKeys = Object.keys(groupedProducts)
+  const firstCategory = resMenu.categories.find(
+    item => item.id === Number(categoriesKeys[0]),
+  )
+
+  const firstCategoryProducts = groupedProducts[firstCategory.id]
+  return { cat: firstCategory, product: firstCategoryProducts }
+}
+
+const SingleEvent = ({ data, selectedNightTypes, resMenu }) => {
   const navigate = useNavigate()
   const classes = useStyle()
 
   const [giftModalIsOpen, setGiftModalIsOpen] = useState(false)
 
-  return (
+  return !data ? null : (
     <div className={classes.container}>
       <div className="photosContainer">
-        <div className="photo">
+        {data?.images?.map((image, index) => (
+          <div className="photo">
+            <img alt="gallery" src={image.image} />
+            {index === 0 && (
+              <span onClick={() => navigate('/gallery')}>
+                Vedi Tutte le foto
+              </span>
+            )}
+          </div>
+        ))}
+        {/* <div className="photo">
           <img alt="gallery" src="./images/danceNight.jpg" />
           <span onClick={() => navigate('/gallery')}>Vedi Tutte le foto</span>
         </div>
@@ -23,7 +52,7 @@ const SingleEvent = () => {
         </div>
         <div className="photo">
           <img alt="gallery" src="./images/danceNight.jpg" />
-        </div>
+        </div> */}
         <div
           onClick={() => navigate('/event-selection')}
           className="closeButtonContainer"
@@ -33,24 +62,30 @@ const SingleEvent = () => {
       </div>
       <div className="body">
         <div className="eventContainer">
-          <span className="selected">Serata di ballo</span>
-          <span>Evento aziendale</span>
-          <span>Festa di laurea</span>
+          {data?.nightTypes?.map(item => (
+            <span
+              className={
+                checkForMatches(item, selectedNightTypes) ? 'selected' : ''
+              }
+            >
+              {item.value}
+            </span>
+          ))}
         </div>
         <div className="nameContainer">
-          <span className="name">Opposto</span>
-          <span className="type">Discoteca</span>
+          <span className="name">{data.restaurant?.name}</span>
+          <span className="type">{data.restaurant?.category.value}</span>
         </div>
         <div className="infoContainer">
           <div>
             <div className="pinContainer">
               <img alt="promotion" src="./images/pin.png" />
             </div>
-            <span>Piazza Vitorio Veneto 1, Torino</span>
+            <span>{data.restaurant?.location.address}</span>
           </div>
           <div>
             <img alt="promotion" src="./images/euro.png" />
-            <span>Prezzo basso</span>
+            <span>{data.restaurant?.details.priceRange}</span>
           </div>
           <div className="contactContainer">
             <div className="left">
@@ -70,20 +105,22 @@ const SingleEvent = () => {
 
         <hr />
 
-        <div
-          onClick={() => setGiftModalIsOpen(prevValue => !prevValue)}
-          className="giftContainer"
-        >
-          <span>Se prenoti in questo locale otterrai</span>
-          <div>
-            <hr />
+        {data.restaurant?.hasGift && (
+          <div
+            onClick={() => setGiftModalIsOpen(prevValue => !prevValue)}
+            className="giftContainer"
+          >
+            <span>Se prenoti in questo locale otterrai</span>
             <div>
-              <span className="number">100</span>
-              <span className="gift">Gift</span>
+              <hr />
+              <div>
+                <span className="number">100</span>
+                <span className="gift">Gift</span>
+              </div>
+              <hr />
             </div>
-            <hr />
           </div>
-        </div>
+        )}
 
         <MyModal
           handleClose={() => setGiftModalIsOpen(false)}
@@ -116,7 +153,7 @@ const SingleEvent = () => {
             </div>
           </div>
         </MyModal>
-        <div className="rateContainer">
+        {/* <div className="rateContainer">
           <img alt="rate" src="./images/star.png" />
           <span>8/10</span>
         </div>
@@ -168,17 +205,27 @@ const SingleEvent = () => {
               </div>
             </div>
           </div>
-        </div>
-        <div className="menuContainer">
-          <span className="menuText">Menu</span>
-          <span className="category">Analcolici</span>
-          <div className="item">
-            Succo alla pera in bottiglia ...................... €3,00
+        </div> */}
+        {resMenu.categories.length ? (
+          <div className="menuContainer">
+            <span className="menuText">Menu</span>
+            <span className="category">
+              {extractFirstItemOfMenu(resMenu).cat.name}
+            </span>
+            <div className="item">
+              {`${
+                extractFirstItemOfMenu(resMenu).product[0].name
+              } ..................... €${
+                extractFirstItemOfMenu(resMenu).product[0].price
+              },00`}
+            </div>
+            <div className="buttonContainer">
+              <span onClick={() => navigate(`/menu/${data.restaurant.id}`)}>
+                Vedi tutto il menu
+              </span>
+            </div>
           </div>
-          <div className="buttonContainer">
-            <span onClick={() => navigate('/menu')}>Vedi tutto il menu</span>
-          </div>
-        </div>
+        ) : null}
 
         <hr />
 
@@ -191,20 +238,18 @@ const SingleEvent = () => {
 
         <div className="timetableContainer">
           <span className="title">Orari di apertura</span>
-          <span className="timeItem">Martedi 19.00 - 23.00</span>
-          <span className="timeItem">Mercoledi 19.00 - 23.00</span>
-          <span className="timeItem">Giovedi 19.00 - 23.00</span>
-          <span className="timeItem">Venerdi 19.00 - 23.00</span>
-          <span className="timeItem">Sabato 19.00 - 23.00</span>
-          <span className="timeItem">Domenica 19.00 - 23.00</span>
+          {data.timetable.map(({ weekday, timeFrom, timeTo }) => (
+            <span className="timeItem">{`${weekday} ${timeFrom} - ${timeTo}`}</span>
+          ))}
         </div>
         <hr />
 
         <span className="localServiceText">Servizi locale</span>
 
         <div className="servicesContainer">
-          <span>Accesso disabili</span>
-          <span>Animali annessi</span>
+          {data.localServices.map(({ name }) => (
+            <span>{name}</span>
+          ))}
         </div>
       </div>
 

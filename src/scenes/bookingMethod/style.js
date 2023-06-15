@@ -80,6 +80,9 @@ export const useStyle = makeStyles(theme => ({
           '& > .text': {
             fontWeight: 'bold',
           },
+          '& > .notBold': {
+            fontWeight: 'normal',
+          },
           '& > .percentage': {
             color: '#26D412',
             position: 'absolute',
@@ -95,6 +98,7 @@ export const useStyle = makeStyles(theme => ({
             right: -10,
           },
         },
+
         '& > .selected': {
           border: `2px solid ${theme.palette.secondary.main}`,
         },

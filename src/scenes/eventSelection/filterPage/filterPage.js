@@ -1,25 +1,24 @@
 import { useNavigate } from 'react-router-dom'
-
+import { checkForMatches } from 'src/helpers/functions'
 import { Switch } from 'src/components'
 
 import { useStyle } from './style'
 
-const eventTypes = [
-  { title: 'Serata di ballo', image: 'danceNight.jpg', id: 1 },
-  { title: 'Festa di laurea', image: 'danceNight.jpg', id: 2 },
-  { title: 'Festa di compleanno', image: 'danceNight.jpg', id: 3 },
-  { title: 'Evento aziendale', image: 'danceNight.jpg', id: 4 },
-  { title: 'Serata di ballo', image: 'danceNight.jpg', id: 5 },
-  { title: 'Festa di laurea', image: 'danceNight.jpg', id: 6 },
-  { title: 'Festa di compleanno', image: 'danceNight.jpg', id: 7 },
-]
-
-const checkForMatches = (item, array) => {
-  const result = array.find(el => el.id === item.id)
-  return result
-}
-
-const FilterPage = ({ handleFilterByType, selectedTypes = [] }) => {
+const FilterPage = ({
+  handleFilterByType,
+  selectedTypes = [],
+  hasPromotion,
+  setHasPromotion,
+  selectedMusicGenres,
+  setSelectedMusicGenres,
+  hasLowPrice,
+  setHasLowPrice,
+  selectedZones,
+  setSelectedZones,
+  cityZones,
+  musicGenres,
+  nightTypes,
+}) => {
   const classes = useStyle()
   const navigate = useNavigate()
 
@@ -36,45 +35,33 @@ const FilterPage = ({ handleFilterByType, selectedTypes = [] }) => {
         </div>
       </div>
       <div className="body">
-        {eventTypes.map(type => (
+        {nightTypes.map(type => (
           <div
             className={`event ${
               checkForMatches(type, selectedTypes) ? 'selected' : ''
             }`}
             onClick={() => handleFilterByType(type)}
           >
-            <img alt="event" src={`./images/${type.image}`} />
-            <div>{type.title}</div>
+            <img alt="event" src={`./images/danceNight.jpg`} />
+            <div>{type.value}</div>
           </div>
         ))}
 
         <hr />
 
         <div className="title">Filtra per tipo di musica</div>
-        <div className="musicFilterItem">
-          <span>Techno</span>
-          <div>
-            <Switch />
+        {musicGenres.map(item => (
+          <div className="musicFilterItem">
+            <span>{item.name}</span>
+            <div>
+              <Switch
+                value={checkForMatches(item, selectedMusicGenres)}
+                onChange={() => setSelectedMusicGenres(item)}
+              />
+            </div>
           </div>
-        </div>
-        <div className="musicFilterItem">
-          <span>Latino americana</span>
-          <div>
-            <Switch />
-          </div>
-        </div>
-        <div className="musicFilterItem">
-          <span>Raggaeton</span>
-          <div>
-            <Switch />
-          </div>
-        </div>
-        <div className="musicFilterItem">
-          <span>House</span>
-          <div>
-            <Switch />
-          </div>
-        </div>
+        ))}
+
         <div className="seeAllTextContainer">
           <span>Mostra tutto</span>
         </div>
@@ -82,23 +69,29 @@ const FilterPage = ({ handleFilterByType, selectedTypes = [] }) => {
 
         <div className="switchItem">
           <div className="left">
-            <img alt="promotion" src="./images/euro.png" />
+            <img alt="promotion" src="./images/discount_black.png" />
             <span>Promozini</span>
           </div>
           <div className="right">
-            <Switch />
+            <Switch
+              value={hasPromotion}
+              onChange={() => setHasPromotion(!hasPromotion)}
+            />
           </div>
         </div>
         <div className="switchItem">
           <div className="left">
-            <img alt="promotion" src="./images/euro.png" />
+            <img alt="lowPrice" src="./images/euro.png" />
             <span>Del prezzo piu basso</span>
           </div>
           <div className="right">
-            <Switch />
+            <Switch
+              value={hasLowPrice}
+              onChange={() => setHasLowPrice(!hasLowPrice)}
+            />
           </div>
         </div>
-        <div className="switchItem">
+        {/* <div className="switchItem">
           <div className="left">
             <img alt="promotion" src="./images/euro.png" />
             <span>I piu recensiti</span>
@@ -106,18 +99,22 @@ const FilterPage = ({ handleFilterByType, selectedTypes = [] }) => {
           <div className="right">
             <Switch />
           </div>
-        </div>
+        </div> */}
 
         <hr />
 
         <div className="title">Filtra per zona</div>
         <div className="zonesContainer">
-          <span>Centrale</span>
-          <span>San Siro</span>
-          <span>Citylife</span>
-          <span>Brera</span>
-          <span>Isola</span>
-          <span>Lambrate</span>
+          {cityZones.map(item => (
+            <span
+              className={`${
+                checkForMatches(item, selectedZones) ? 'selected' : ''
+              }`}
+              onClick={() => setSelectedZones(item)}
+            >
+              {item.value}
+            </span>
+          ))}
         </div>
       </div>
     </div>
