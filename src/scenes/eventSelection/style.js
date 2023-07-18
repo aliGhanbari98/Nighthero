@@ -12,15 +12,17 @@ export const useStyle = makeStyles(theme => ({
   container: {
     display: 'flex',
     flexDirection: 'column',
+    width: '100%',
     height: '100%',
     position: 'relative',
+    overflowy: 'auto',
     '& > .header': {
       width: '100%',
       display: 'flex',
       justifyContent: 'space-between',
       alignItems: 'center',
       padding: '6px 15px',
-      backgroundColor: theme.palette.secondary.main,
+      backgroundColor: '#fede11',
       opacity: 0.7,
       '& > .left': {
         display: 'flex',
@@ -53,58 +55,121 @@ export const useStyle = makeStyles(theme => ({
           maxHeight: 30,
         },
       },
+      '& > .desktopRight': {
+        display: 'flex',
+        flex: 1,
+        '& > .inputs': {
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          flex: 1,
+          height: 35,
+          '& > input': {
+            height: '100%',
+            width: '50%',
+            border: 'none',
+            borderRadius: 15,
+            padding: '5px 10px',
+            marginRight: 10,
+            boxShadow: '1px 1px 1px 1px rgba(0, 0, 255, .1);',
+            '&:focus': {
+              outline: 'none',
+            },
+          },
+          '& > span': {
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '100%',
+            padding: '5px 10px',
+            backgroundColor: 'white',
+            borderRadius: 15,
+            boxShadow: '1px 1px 1px 1px rgba(0, 0, 255, .1);',
+          },
+          '& > .searchButtonContainer': {
+            marginLeft: 10,
+            height: '100%',
+            width: 38,
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            cursor: 'pointer',
+            backgroundColor: 'white',
+            borderRadius: '50%',
+            boxShadow: '1px 1px 1px 1px rgba(0, 0, 255, .1);',
+            '& > img': {
+              maxWidth: 20,
+              maxHeight: 20,
+            },
+          },
+        },
+
+        '& > img': {
+          maxWidth: 30,
+          maxHeight: 30,
+        },
+      },
     },
     '& > .body': {
       display: 'flex',
       flexDirection: 'column',
       height: '100%',
-      overflowX: 'auto',
-      overflowY: 'auto',
+      overflowX: ({ desktopMode }) => (!desktopMode ? 'auto' : ''),
+      overflowY: ({ desktopMode }) => (!desktopMode ? 'auto' : ''),
       '& > .filterBar': {
+        width: '100%',
         display: 'flex',
-        height: 40,
-        maxHeight: 50,
-        margin: 15,
-        padding: '10px 15px',
-        border: `2px solid ${theme.palette.secondary.main}`,
-        borderRadius: 10,
-        '& > div': {
+        justifyContent: 'center',
+        alignItems: 'center',
+        boxShadow: ({ desktopMode }) =>
+          desktopMode ? '1px 1px 1px 1px rgba(0, 0, 255, .1);' : '',
+        '& > .innerContainer': {
           display: 'flex',
-          alignItems: 'center',
-          width: '33%',
-          height: 20,
-          cursor: 'pointer',
-          borderRadius: 5,
-          '& > .iconImage': {
-            height: 22,
-            maxHeight: 22,
-            width: 22,
-            maxWidth: 22,
+          width: ({ desktopMode }) => (desktopMode ? 400 : '100%'),
+          height: 40,
+          maxHeight: 50,
+          margin: 15,
+          padding: '10px 15px',
+          border: `2px solid ${theme.palette.secondary.main}`,
+          borderRadius: 10,
+          '& > div': {
+            display: 'flex',
+            alignItems: 'center',
+            width: '33%',
+            height: 20,
+            cursor: 'pointer',
+            borderRadius: 5,
+            '& > .iconImage': {
+              height: 22,
+              maxHeight: 22,
+              width: 22,
+              maxWidth: 22,
+            },
+            '& > span': {
+              marginLeft: 5,
+            },
+            '& > .downArrowImage': {
+              maxHeight: 15,
+              marginLeft: 5,
+            },
           },
-          '& > span': {
-            marginLeft: 5,
+          '& > .date': {
+            backgroundColor: ({ calendarModalOpen }) =>
+              calendarModalOpen ? 'lightgrey' : '',
           },
-          '& > .downArrowImage': {
-            maxHeight: 15,
-            marginLeft: 5,
+          '& > .time': {
+            flex: 1,
+            paddingLeft: 10,
+            borderRight: `1px solid lightGrey`,
+            borderLeft: `1px solid lightGrey`,
+            backgroundColor: ({ timeModalOpen }) =>
+              timeModalOpen ? 'lightgrey' : '',
           },
-        },
-        '& > .date': {
-          backgroundColor: ({ calendarModalOpen }) =>
-            calendarModalOpen ? 'lightgrey' : '',
-        },
-        '& > .time': {
-          flex: 1,
-          paddingLeft: 10,
-          borderRight: `1px solid lightGrey`,
-          borderLeft: `1px solid lightGrey`,
-          backgroundColor: ({ timeModalOpen }) =>
-            timeModalOpen ? 'lightgrey' : '',
-        },
-        '& > .people': {
-          paddingLeft: 10,
-          backgroundColor: ({ peopleModalOpen }) =>
-            peopleModalOpen ? 'lightgrey' : '',
+          '& > .people': {
+            paddingLeft: 10,
+            backgroundColor: ({ peopleModalOpen }) =>
+              peopleModalOpen ? 'lightgrey' : '',
+          },
         },
       },
       '& > .eventTypesContainer': {
@@ -138,8 +203,8 @@ export const useStyle = makeStyles(theme => ({
           display: 'flex',
           alignItems: 'center',
           overflowX: 'auto',
-          overflowY: 'hidden',
           padding: '0 15px',
+          overflowY: 'auto',
           '& > div': {
             height: '100%',
             position: 'relative',
@@ -154,11 +219,6 @@ export const useStyle = makeStyles(theme => ({
               opacity: 0.7,
             },
             '& > span': {
-              // position: 'absolute',
-              // top: 20,
-              // left: 17,
-              // color: 'white',
-              // fontWeight: 'bold',
               position: 'absolute',
               top: '50%',
               left: '50%',
@@ -191,12 +251,36 @@ export const useStyle = makeStyles(theme => ({
           fontSize: 18,
         },
       },
-      '& > .foundItemsContainer': {
-        height: '100%',
+      '& > .mainContainer': {
         display: 'flex',
-        flexDirection: 'column',
-        // overflowY: 'auto',
         paddingBottom: 100,
+        padding: 10,
+        overflowY: ({ desktopMode }) => (desktopMode ? 'auto' : ''),
+        '& > .foundItemsContainer': {
+          overflowY: ({ desktopMode }) => (desktopMode ? 'auto' : ''),
+          height: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          flex: 1,
+          borderRight: ({ desktopMode }) =>
+            desktopMode ? '1px solid lightgrey' : '',
+          paddingRight: ({ desktopMode }) => (desktopMode ? 10 : 0),
+          '& > .descContainer': {
+            width: '100%',
+            paddingLeft: 15,
+            paddingTop: 10,
+            '& > span': {
+              fontSize: 16,
+              fontWeight: 'bold',
+            },
+          },
+          // overflowY: 'auto',
+        },
+        '& > .desktopFiltersContainer': {
+          width: '43%',
+          paddingLeft: 10,
+          overflowY: 'auto',
+        },
       },
     },
   },

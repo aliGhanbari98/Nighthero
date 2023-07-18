@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import { useMediaQuery } from '@material-ui/core'
+import { useTheme } from '@material-ui/core/styles'
 import { viewIsLoading } from '../_slice/view.slice'
 import Home from '../home'
 import EventSelection from '../eventSelection'
@@ -14,29 +16,21 @@ import Payment from '../payment'
 import Register from '../home/register'
 import Gallery from '../gallery'
 import { Loading } from 'src/components'
-import {
-  Route,
-  Routes,
-  useNavigate,
-  useLocation,
-  HashRouter,
-} from 'react-router-dom'
+import { Route, Routes, useNavigate, HashRouter } from 'react-router-dom'
 import { getConstantsReq } from 'src/services/constants'
 import { loadConstants, eventSelectedCityView } from '../_slice/event.slice'
 import { useStyle } from './style'
 
 const Body = () => {
   const navigate = useNavigate()
-  const { pathname } = useLocation()
   const dispatch = useDispatch()
+  const theme = useTheme()
+
+  const desktopMode = useMediaQuery(theme.breakpoints.up('sm'))
 
   const selectedCity = useSelector(eventSelectedCityView)
 
   useEffect(() => {
-    // if (pathname.endsWith('/search')) navigate('/search')
-    // if (pathname.endsWith('/success')) navigate('/success')
-    // if (pathname === '/') return
-    // else navigate(pathname)
     if (!selectedCity.value) {
       navigate('/')
       return
@@ -48,48 +42,68 @@ const Body = () => {
 
   return (
     <Routes>
-      <Route exact path="/" name="Home Page" element={<Home />} />
+      <Route
+        exact
+        path="/"
+        name="Home Page"
+        element={<Home desktopMode={desktopMode} />}
+      />
       <Route
         exact
         path="/event-selection"
         name="Event Selection"
-        element={<EventSelection />}
+        element={<EventSelection desktopMode={desktopMode} />}
       />
       <Route exact path="/filter" name="Filter" element={<FilterPage />} />
       <Route
         exact
         path="/single-event/:resId"
         name="Single Event"
-        element={<SingleEvent />}
+        element={<SingleEvent desktopMode={desktopMode} />}
       />
       <Route exact path="/menu/:resId" name="Menu" element={<Menu />} />
       <Route
         exact
         path="/event-details"
         name="Event Details"
-        element={<EventDetails />}
+        element={<EventDetails desktopMode={desktopMode} />}
       />
       <Route
         exact
         path="/event-offers"
         name="Event offers"
-        element={<EventOffers />}
+        element={<EventOffers desktopMode={desktopMode} />}
       />
       <Route
         exact
         path="/booking-method"
         name="Booking Method"
-        element={<BookingMethod />}
+        element={<BookingMethod desktopMode={desktopMode} />}
       />
-      <Route exact path="/payment" name="Payment" element={<Payment />} />
-      <Route exact path="/register" name="Register" element={<Register />} />
+      <Route
+        exact
+        path="/payment"
+        name="Payment"
+        element={<Payment desktopMode={desktopMode} />}
+      />
+      <Route
+        exact
+        path="/register"
+        name="Register"
+        element={<Register desktopMode={desktopMode} />}
+      />
       <Route
         exact
         path="/upcoming-events"
         name="Upcoming Events"
-        element={<UpcomingEvents />}
+        element={<UpcomingEvents desktopMode={desktopMode} />}
       />
-      <Route exact path="/gallery" name="Gallery" element={<Gallery />} />
+      <Route
+        exact
+        path="/gallery"
+        name="Gallery"
+        element={<Gallery desktopMode={desktopMode} />}
+      />
     </Routes>
   )
 }

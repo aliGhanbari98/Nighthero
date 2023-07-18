@@ -7,8 +7,9 @@ import { MyModal } from 'src/components'
 import CalendarModal from './modals/calendar/calendarModal'
 import TimeModal from './modals/time/timeModal'
 import PeopleModal from './modals/people/peopleModal'
+import DesktopFilters from './desktopFilters'
 
-import { checkForMatches } from 'src/helpers/functions'
+import { checkForMatches, formatDate } from 'src/helpers/functions'
 
 import { useStyle } from './style'
 
@@ -27,7 +28,7 @@ const FoundItem = ({ onClick, data, selectedNightTypes }) => {
   return (
     <div className={classes.foundItem}>
       <div onClick={() => onClick(id)} className="left">
-        <img alt="event" src="./images/danceNight.jpg" />
+        <img alt="event" src={image || './images/danceNight.jpg'} />
         <span>{category.value}</span>
       </div>
       <div className="right">
@@ -85,14 +86,14 @@ const EventSelection = ({
   searchHeaderExpanded,
   setSearchHeaderExpanded,
   onHeaderModalClose,
+  desktopMode,
+  selectedCity,
 }) => {
   const navigate = useNavigate()
 
   const [calendarModalOpen, setCalendarModalOpen] = useState(false)
   const [timeModalOpen, setTimeModalOpen] = useState(false)
   const [peopleModalOpen, setPeopleModalOpen] = useState(false)
-
-  const [selectedFilterTab, setSelectedFilterTab] = useState(0)
 
   const onDateConfirm = date => {
     setCalendarModalOpen(false)
@@ -108,11 +109,13 @@ const EventSelection = ({
     onPeopleChange(people)
   }
 
+  console.log({ selectedCity })
+
   const classes = useStyle({
-    selectedFilterTab,
     calendarModalOpen,
     timeModalOpen,
     peopleModalOpen,
+    desktopMode,
   })
 
   return (
@@ -138,11 +141,15 @@ const EventSelection = ({
             </div>
             <div className="right">
               <div className="searchInputContainer">
-                <img alt="search" src="./images/search.png" />
+                <img
+                  alt="search"
+                  onClick={() => onHeaderModalClose(false)}
+                  src="./images/search.png"
+                />
                 <input
                   onChange={e => setSearchedName(e.target.value)}
                   value={searchedName}
-                  placeholder="Nome del ristorante"
+                  placeholder="Nome del locale"
                 />
               </div>
               {/* <div className="locationInputContainer">
@@ -167,116 +174,160 @@ const EventSelection = ({
         <div onClick={() => navigate('/')} className="left">
           <img src={LogoSVG} alt="logo" />
         </div>
-        <div onClick={() => setSearchHeaderExpanded(true)} className="right">
-          <span>Serata di ballo - TO</span>
-          <img alt="profile" src="./images/user.png" />
-        </div>
+        {!desktopMode && (
+          <div onClick={() => setSearchHeaderExpanded(true)} className="right">
+            <span>Serata di ballo - TO</span>
+            <img alt="profile" src="./images/user.png" />
+          </div>
+        )}
+
+        {desktopMode && (
+          <div className="desktopRight">
+            <div className="inputs">
+              <input
+                onChange={e => setSearchedName(e.target.value)}
+                value={searchedName}
+                placeholder="Nome del locale"
+              />
+              <span>{selectedCity.key}</span>
+              <div className="searchButtonContainer">
+                <img
+                  alt="search"
+                  onClick={() => onHeaderModalClose(false)}
+                  src="./images/search.png"
+                />
+              </div>
+            </div>
+            <img alt="profile" src="./images/user.png" />
+          </div>
+        )}
       </div>
       <div className="body">
         <div className="filterBar">
-          <div onClick={() => setCalendarModalOpen(true)} className="date">
-            <img className="iconImage" alt="date" src="./images/calendar.png" />
-            <span>Data</span>
-            <img
-              className="downArrowImage"
-              alt="date"
-              src="./images/black-down-arrow.png"
-            />
+          <div className="innerContainer">
+            <div onClick={() => setCalendarModalOpen(true)} className="date">
+              <img
+                className="iconImage"
+                alt="date"
+                src="./images/calendar.png"
+              />
+              <span>
+                {selectedDate ? formatDate(selectedDate['$d'], true) : 'Data'}
+              </span>
+              <img
+                className="downArrowImage"
+                alt="date"
+                src="./images/black-down-arrow.png"
+              />
+            </div>
+            <div onClick={() => setTimeModalOpen(true)} className="time">
+              <img className="iconImage" alt="date" src="./images/clock.png" />
+              <span>
+                {selectedTimeSlots.length ? selectedTimeSlots[0].time : 'Ora'}
+              </span>
+              <img
+                className="downArrowImage"
+                alt="date"
+                src="./images/black-down-arrow.png"
+              />
+            </div>
+            <div onClick={() => setPeopleModalOpen(true)} className="people">
+              <img className="iconImage" alt="date" src="./images/people.png" />
+              <span>{selectedPeople || 'Persone'}</span>
+              <img
+                className="downArrowImage"
+                alt="date"
+                src="./images/black-down-arrow.png"
+              />
+            </div>
+            <MyModal
+              open={calendarModalOpen}
+              handleClose={() => setCalendarModalOpen(prevValue => !prevValue)}
+            >
+              <CalendarModal
+                onConfirm={onDateConfirm}
+                selectedDate={selectedDate}
+              />
+            </MyModal>
+            <MyModal
+              open={timeModalOpen}
+              handleClose={() => setTimeModalOpen(prevValue => !prevValue)}
+            >
+              <TimeModal
+                onTimeSlotClick={handleTimeSlot}
+                onConfirm={onTimeConfirm}
+                selectedTimeSlots={selectedTimeSlots}
+              />
+            </MyModal>
+            <MyModal
+              open={peopleModalOpen}
+              handleClose={() => setPeopleModalOpen(prevValue => !prevValue)}
+            >
+              <PeopleModal
+                onConfirm={onPeopleConfirm}
+                selectedPeople={selectedPeople}
+              />
+            </MyModal>
           </div>
-          <div onClick={() => setTimeModalOpen(true)} className="time">
-            <img className="iconImage" alt="date" src="./images/clock.png" />
-            <span>Ora</span>
-            <img
-              className="downArrowImage"
-              alt="date"
-              src="./images/black-down-arrow.png"
-            />
-          </div>
-          <div onClick={() => setPeopleModalOpen(true)} className="people">
-            <img className="iconImage" alt="date" src="./images/people.png" />
-            <span>Persone</span>
-            <img
-              className="downArrowImage"
-              alt="date"
-              src="./images/black-down-arrow.png"
-            />
-          </div>
-          <MyModal
-            open={calendarModalOpen}
-            handleClose={() => setCalendarModalOpen(prevValue => !prevValue)}
-          >
-            <CalendarModal
-              onConfirm={onDateConfirm}
-              selectedDate={selectedDate}
-            />
-          </MyModal>
-          <MyModal
-            open={timeModalOpen}
-            handleClose={() => setTimeModalOpen(prevValue => !prevValue)}
-          >
-            <TimeModal
-              onTimeSlotClick={handleTimeSlot}
-              onConfirm={onTimeConfirm}
-              selectedTimeSlots={selectedTimeSlots}
-            />
-          </MyModal>
-          <MyModal
-            open={peopleModalOpen}
-            handleClose={() => setPeopleModalOpen(prevValue => !prevValue)}
-          >
-            <PeopleModal
-              onConfirm={onPeopleConfirm}
-              selectedPeople={selectedPeople}
-            />
-          </MyModal>
         </div>
-        <div className="eventTypesContainer">
-          <div
-            onClick={() => navigate('/filter')}
-            className="filterIconContainer"
-          >
-            <img alt="filter" src="./images/filter.png" />
-            <span>{selectedTypes.length}</span>
+        {!desktopMode && (
+          <div className="eventTypesContainer">
+            <div
+              onClick={() => navigate('/filter')}
+              className="filterIconContainer"
+            >
+              <img alt="filter" src="./images/filter.png" />
+              <span>{selectedTypes.length}</span>
+            </div>
+            <div className="itemsContainer">
+              {restaurantsCategories.length
+                ? restaurantsCategories.map((item, index) => (
+                    <div
+                      className={`${index === 0 ? 'firstItem' : 'singleItem'} ${
+                        item.id === selectedCategories?.id ? 'selected' : ''
+                      } `}
+                      onClick={() => onCategoriesChange(item)}
+                    >
+                      <img alt="dance-night" src="./images/danceNight.jpg" />
+                      <span>{item.value}</span>
+                    </div>
+                  ))
+                : null}
+            </div>
           </div>
-          <div className="itemsContainer">
-            {restaurantsCategories.length
-              ? restaurantsCategories.map((item, index) => (
-                  <div
-                    className={`${index === 0 ? 'firstItem' : 'singleItem'} ${
-                      item.id === selectedCategories?.id ? 'selected' : ''
-                    } `}
-                    onClick={() => onCategoriesChange(item)}
-                  >
-                    <img alt="dance-night" src="./images/danceNight.jpg" />
-                    <span>{item.value}</span>
-                  </div>
+        )}
+        {!desktopMode && <hr className="line" />}{' '}
+        {!desktopMode && (
+          <div className="filterTextContainer">
+            <span>{restaurantsData.length} locali filtrati per te</span>
+          </div>
+        )}
+        <div className="mainContainer">
+          <div className="foundItemsContainer">
+            <div className="descContainer">
+              <span>I LOCALI A {selectedCity.key.toUpperCase()} PER TE</span>
+            </div>
+            {restaurantsData.length
+              ? restaurantsData.map(item => (
+                  <FoundItem
+                    data={item}
+                    onClick={id => {
+                      navigate(`/single-event/${id}`)
+                    }}
+                    selectedNightTypes={selectedNightTypes}
+                  />
                 ))
               : null}
           </div>
-        </div>
-        <hr className="line" />
-        <div className="filterTextContainer">
-          <span>{restaurantsData.length} locali filtrati per te</span>
-        </div>
-        <div className="foundItemsContainer">
-          {restaurantsData.length
-            ? restaurantsData.map(item => (
-                <FoundItem
-                  data={item}
-                  onClick={id => {
-                    navigate(`/single-event/${id}`)
-                  }}
-                  selectedNightTypes={selectedNightTypes}
-                />
-              ))
-            : null}
-          {/* <FoundItem onClick={() => navigate('/single-event')} />
-          <FoundItem onClick={() => navigate('/single-event')} />
-          <FoundItem onClick={() => navigate('/single-event')} />
-          <FoundItem onClick={() => navigate('/single-event')} />
-          <FoundItem onClick={() => navigate('/single-event')} />
-          <FoundItem onClick={() => navigate('/single-event')} />
-          <FoundItem onClick={() => navigate('/single-event')} /> */}
+          {desktopMode && (
+            <div className="desktopFiltersContainer">
+              <DesktopFilters
+                restaurantsCategories={restaurantsCategories}
+                selectedCategories={selectedCategories}
+                onCategoriesChange={onCategoriesChange}
+              />
+            </div>
+          )}
         </div>
       </div>
     </div>

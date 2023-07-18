@@ -5,6 +5,7 @@ export const useStyle = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'column',
     height: '100%',
+    width: '100%',
     position: 'relative',
     '& > .header': {
       width: '100%',
@@ -141,6 +142,7 @@ export const useStyle = makeStyles(theme => ({
           maxWidth: 110,
           maxHeight: 40,
           cursor: 'pointer',
+          // whiteSpace: 'nowrap',
         },
         '& > .selected': {
           border: `2px solid ${theme.palette.secondary.main}`,

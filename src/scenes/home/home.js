@@ -15,13 +15,13 @@ const Home = ({
   onSearchClick,
   eventTypes,
   cities,
+  desktopMode,
 }) => {
-  const classes = useStyle()
+  const classes = useStyle({ desktopMode })
   const navigate = useNavigate()
 
   const [event, setEvent] = useState('')
   const [city, setCity] = useState({ key: '', value: '' })
-  const [loginExpanded, setLoginExpanded] = useState(false)
 
   const validator = () => {
     if (!event && !city.value)
@@ -65,34 +65,51 @@ const Home = ({
         </div>
       </div>
       <div className="body">
-        <img alt="logo" src={LogoSVG} />
-        <p>
-          Scopri i migliori locali notturni della tua zona, prenota, paga e
-          divertiti!
-        </p>
+        {!desktopMode && <img alt="logo" src={LogoSVG} />}{' '}
+        {!desktopMode && (
+          <p>
+            Scopri i migliori locali notturni della tua zona, prenota, paga e
+            divertiti!
+          </p>
+        )}
+        {desktopMode && (
+          <div className="desktopTitles">
+            <div className="textsContainer">
+              <span className="normalTitle">
+                Scopri i migliori locali notturani della tua zona
+              </span>
+              <h3 className="boldTitle">PRENOTA, PAGA E DIVERTITI</h3>
+            </div>
+            <div className="logoContainer">
+              <img src={LogoSVG} alt="logo" />
+            </div>
+          </div>
+        )}
         <div className="searchBar">
-          <div className="partySelectContainer">
-            <PartySelect
-              items={eventTypes}
-              selectedEvent={event || selectedEventType}
-              setSelectedEvent={setEvent}
-            />
-          </div>
-          <div className="autoCompleteContainer">
-            <AutoComplete
-              value={city || selectedCity}
-              onChange={val => {
-                setCity(val)
-              }}
-              options={cities?.map(({ id, value }) => ({
-                key: value,
-                value: id,
-              }))}
-              placeholder="Citta"
-            />
-          </div>
-          <div onClick={validator} className="searchButtonContainer">
-            <img alt="search-button" src={SearchSVG} />
+          <div>
+            <div className="partySelectContainer">
+              <PartySelect
+                items={eventTypes}
+                selectedEvent={event || selectedEventType}
+                setSelectedEvent={setEvent}
+              />
+            </div>
+            <div className="autoCompleteContainer">
+              <AutoComplete
+                value={city || selectedCity}
+                onChange={val => {
+                  setCity(val)
+                }}
+                options={cities?.map(({ id, value }) => ({
+                  key: value,
+                  value: id,
+                }))}
+                placeholder="Citta"
+              />
+            </div>
+            <div onClick={validator} className="searchButtonContainer">
+              <img alt="search-button" src={SearchSVG} />
+            </div>
           </div>
         </div>
       </div>

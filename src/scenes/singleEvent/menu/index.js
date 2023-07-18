@@ -10,6 +10,7 @@ export default () => {
   const { resId } = useParams()
   const dispatch = useDispatch()
   const [menuData, setMenuData] = useState()
+  const [searchText, setSearchText] = useState('')
   const resData = useSelector(eventSelectedRestaurantView)
   const {
     restaurant: { name, category },
@@ -21,12 +22,15 @@ export default () => {
       dispatch(setIsLoading(false))
     })
   }, [])
+
   return (
     <Menu
       data={menuData}
       resId={resId}
       resName={name}
       resCategory={category.value}
+      searchText={searchText}
+      setSearchText={setSearchText}
     />
   )
 }

@@ -9,13 +9,12 @@ const PeopleModal = ({ onConfirm, selectedPeople }) => {
   const [people, setPeople] = useState('')
 
   useEffect(() => {
-    console.log(selectedPeople)
     setPeople(selectedPeople)
   }, [selectedPeople])
 
   return (
     <div className={classes.container}>
-      <h4>Seleziona tra le fasce orarie disponibili</h4>
+      <h4>Dicci il numero di persone</h4>
       <input value={people} onChange={e => setPeople(e.target.value)} />
       <div className="buttonsContainer">
         <Button onClick={() => onConfirm(people)} label="Conferma" />

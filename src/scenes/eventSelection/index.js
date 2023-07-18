@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import EventSelection from './eventSelection'
-import { useNavigate, useParams } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import {
   eventSelectedTimeSlots,
@@ -22,9 +21,8 @@ import {
 import { setIsLoading } from '../_slice/view.slice'
 import { searchRestaurantsReq } from 'src/services/restaurant'
 
-export default () => {
+export default ({ desktopMode }) => {
   const dispatch = useDispatch()
-  // const { homeCity, homeNightType } = useParams()
 
   const [restaurantsData, setRestaurantsData] = useState([])
   const [searchedName, setSearchedName] = useState('')
@@ -44,7 +42,10 @@ export default () => {
   const selectedHasPromotion = useSelector(eventHasPromotionView)
   const selectedHasLowPrice = useSelector(eventHasLowPriceView)
 
+  console.log({ selectedTypes, selectedMusicGenres })
+
   const refreshData = (name = '') => {
+    console.log('refershing')
     dispatch(setIsLoading(true))
     searchRestaurantsReq({
       city: selectedCity.value,
@@ -90,7 +91,17 @@ export default () => {
 
   useEffect(() => {
     if (selectedCity.value) refreshData()
-  }, [selectedCategories, selectedDate, selectedTimeSlots, selectedCity])
+  }, [
+    selectedCategories,
+    selectedDate,
+    selectedTimeSlots,
+    selectedCity,
+    selectedTypes,
+    selectedMusicGenres,
+    selectedZones,
+    selectedHasLowPrice,
+    selectedHasPromotion,
+  ])
 
   return (
     <EventSelection
@@ -111,6 +122,8 @@ export default () => {
       searchHeaderExpanded={searchHeaderExpanded}
       setSearchHeaderExpanded={setSearchHeaderExpanded}
       onHeaderModalClose={onHeaderModalClose}
+      desktopMode={desktopMode}
+      selectedCity={selectedCity}
     />
   )
 }

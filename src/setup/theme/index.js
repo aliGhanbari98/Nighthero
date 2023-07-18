@@ -7,6 +7,15 @@ import palette from './palette'
 
 const theme = createTheme({
   palette: palette,
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 720,
+      md: 960,
+      lg: 1280,
+      xl: 1920,
+    },
+  },
   overrides: {
     MuiCssBaseline: {
       '@global': {

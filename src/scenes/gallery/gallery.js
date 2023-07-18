@@ -1,22 +1,27 @@
-import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Button, MySlider } from 'src/components'
+// import { Button, MySlider } from 'src/components'
 import { useStyle } from './style'
 
-const Gallery = ({}) => {
+const Gallery = ({ images, resId }) => {
   const navigate = useNavigate()
   const classes = useStyle({})
 
   return (
     <div className={classes.container}>
-      <img
+      {/* <img
         className="closeButton"
         alt="close"
         src="./images/close-yellow.png"
-        onClick={() => navigate('/single-event')}
-      />
+        onClick={() => navigate(`/single-event/${resId}`)}
+      /> */}
+      <div
+        onClick={() => navigate(`/single-event/${resId}`)}
+        className="closeButtonContainer"
+      >
+        <img alt="gallery" src="./images/close.png" />
+      </div>
       <div className="sliderContainer">
-        <img alt="gallery" src="./images/danceNight.jpg" />
+        <img alt="gallery" src={images[0]?.image} />
       </div>
     </div>
   )

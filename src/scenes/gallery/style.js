@@ -11,11 +11,27 @@ export const useStyle = makeStyles(theme => ({
     backgroundColor: 'black',
     position: 'relative',
     overflow: 'hidden',
-    '& > .closeButton': {
+    // '& > .closeButton': {
+    //   position: 'absolute',
+    //   top: 10,
+    //   left: 10,
+    //   maxHeight: 30,
+    //   zIndex: 100,
+    // },
+    '& > .closeButtonContainer': {
+      display: 'flex',
+      alignItems: 'center',
+      backgroundColor: theme.palette.secondary.main,
+      borderRadius: '50%',
+      padding: 7,
       position: 'absolute',
       top: 10,
       left: 10,
-      maxHeight: 30,
+      opacity: 0.5,
+      cursor: 'pointer',
+      '& > img': {
+        maxHeight: 20,
+      },
       zIndex: 100,
     },
     '& > .sliderContainer': {

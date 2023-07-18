@@ -16,7 +16,7 @@ import {
 } from 'src/services/restaurant'
 import { useEffect } from 'react'
 
-export default () => {
+export default ({ desktopMode }) => {
   const { resId } = useParams()
   const dispatch = useDispatch()
 
@@ -44,6 +44,7 @@ export default () => {
       data={restaurantData}
       selectedNightTypes={selectedNightTypes}
       resMenu={resMenu}
+      desktopMode={desktopMode}
     />
   )
 }

@@ -1,5 +1,7 @@
-export const checkForMatches = (item, array) => {
-  const result = array.find(el => el.id === item.id)
+export const checkForMatches = (item, array, checkKey = 'id') => {
+  const result = array.find(el => {
+    return el[checkKey] === item[checkKey]
+  })
   return result
 }
 
@@ -50,4 +52,14 @@ export const extractTimeslots = (workingHours, date = null) => {
   }
 
   return timeSlots.map((time, i) => ({ time, id: i + 1 }))
+}
+
+export const formatDate = (date, excludeYear = false) => {
+  const originalDate = new Date(date)
+
+  const day = originalDate.getDate().toString().padStart(2, '0')
+  const month = (originalDate.getMonth() + 1).toString().padStart(2, '0')
+  const year = originalDate.getFullYear().toString()
+
+  return excludeYear ? `${day}/${month}` : `${day}/${month}/${year}`
 }

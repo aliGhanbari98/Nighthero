@@ -7,50 +7,105 @@ export const useStyle = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    '& > .photoContainer': {
+    overflowY: 'auto',
+    '& > .headerContainer': {
       position: 'relative',
       width: '100%',
-      '& > .closeButtonContainer': {
-        display: 'flex',
-        alignItems: 'center',
-        backgroundColor: theme.palette.secondary.main,
-        borderRadius: '50%',
-        padding: 7,
-        position: 'absolute',
+      '& > .buttonContainer': {
+        position: 'fixed',
         top: 10,
         left: 10,
-        opacity: 0.5,
-        cursor: 'pointer',
-        '& > img': {
-          maxHeight: 20,
+        zIndex: 1000,
+        '& > .closeButtonContainer': {
+          display: 'flex',
+          alignItems: 'center',
+          backgroundColor: theme.palette.secondary.main,
+          borderRadius: '50%',
+          padding: 7,
+          // position: 'absolute',
+          // top: 10,
+          // left: 10,
+          opacity: 0.5,
+          cursor: 'pointer',
+          '& > img': {
+            maxHeight: 20,
+          },
+          zIndex: 100,
         },
-        zIndex: 100,
       },
-      '& > img': {
+      '& > .photoContainer': {
+        position: 'relative',
         width: '100%',
-        maxHeight: 300,
+        transition: 'opacity 0.5s, color 0.5s',
+        opacity: 1,
+        // '& > .closeButtonContainer': {
+        //   display: 'flex',
+        //   alignItems: 'center',
+        //   backgroundColor: theme.palette.secondary.main,
+        //   borderRadius: '50%',
+        //   padding: 7,
+        //   position: 'absolute',
+        //   top: 10,
+        //   left: 10,
+        //   opacity: 0.5,
+        //   cursor: 'pointer',
+        //   '& > img': {
+        //     maxHeight: 20,
+        //   },
+        //   zIndex: 100,
+        // },
+        '& > img': {
+          width: '100%',
+          maxHeight: 300,
+        },
+        '& > .infoContainer': {
+          position: 'absolute',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          '& > h2': {
+            color: 'white',
+            textAlign: 'center',
+            margin: 0,
+          },
+          '& > span': {
+            color: 'white',
+            textAlign: 'center',
+            paddingTop: 10,
+          },
+        },
       },
-      '& > .infoContainer': {
-        position: 'absolute',
+
+      '& > .fixedHeaderContaienr': {
+        height: 80,
+        width: '100%',
+        position: 'fixed',
+        top: 0,
+        opacity: 0,
+        transition: 'opacity 0.5s, color 0.5s',
+        backgroundColor: 'white',
+        color: 'black',
+        fontSize: 18,
+        fontWeight: 'bold',
         display: 'flex',
-        flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        '& > h2': {
-          color: 'white',
-          textAlign: 'center',
-          margin: 0,
-        },
-        '& > span': {
-          color: 'white',
-          textAlign: 'center',
-          paddingTop: 10,
-        },
+        boxShadow: '1px 1px 1px 1px rgba(0, 0, 255, .1);',
+      },
+
+      '& > .fixedHeader_visible': {
+        opacity: 1,
+      },
+
+      '& > .photoContainer_hidden': {
+        opacity: 0,
       },
     },
+
     '& > .body': {
       width: '100%',
       display: 'flex',
@@ -58,7 +113,6 @@ export const useStyle = makeStyles(theme => ({
       alignItems: 'center',
       padding: 20,
       paddingTop: 0,
-      overflowY: 'auto',
       '& >*:not(:last-child)': {
         borderBottom: '1px solid grey',
       },

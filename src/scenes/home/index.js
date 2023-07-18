@@ -18,7 +18,7 @@ import {
 import { getConstantsReq } from 'src/services/constants'
 import { getCitiesReq } from 'src/services/world'
 
-export default ({}) => {
+export default ({ desktopMode }) => {
   const dispatch = useDispatch()
   const loginModalExpanded = useSelector(viewLoginModalExpanded)
   const selectedCity = useSelector(eventSelectedCityView)
@@ -60,6 +60,7 @@ export default ({}) => {
       selectedEventType={selectedEventType}
       eventTypes={constants?.nightTypes}
       cities={constants?.cities}
+      desktopMode={desktopMode}
     />
   )
 }

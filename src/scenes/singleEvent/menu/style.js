@@ -26,6 +26,30 @@ export const useStyle = makeStyles(theme => ({
         border: 'none',
         padding: 5,
       },
+      '& > .searchInputContainer': {
+        display: 'flex',
+        flexDirection: 'row-reverse',
+        backgroundColor: 'white',
+        alignItems: 'center',
+        padding: 5,
+        borderRadius: 15,
+        height: 40,
+        '& > img': {
+          maxWidth: 20,
+        },
+        '& > input': {
+          width: '60%',
+          maxWidth: 220,
+          borderRadius: 15,
+          border: 'none',
+          padding: 5,
+          flex: 1,
+          marginRight: 3,
+          '&:focus': {
+            outline: 'none',
+          },
+        },
+      },
     },
     '& > .body': {
       display: 'flex',

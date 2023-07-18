@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import FilterPage from './filterPage'
+import DesktopFilters from './desktopFilters'
 import { useSelector, useDispatch } from 'react-redux'
 import {
   eventSelectedCityView,
@@ -17,7 +17,11 @@ import {
 } from '../../_slice/event.slice.js'
 import { getCityZonesReq } from 'src/services/world'
 
-export default () => {
+export default ({
+  restaurantsCategories,
+  selectedCategories,
+  onCategoriesChange,
+}) => {
   const dispatch = useDispatch()
 
   const selectedTypes = useSelector(eventFilteredTypesView)
@@ -60,7 +64,7 @@ export default () => {
   }, [])
 
   return (
-    <FilterPage
+    <DesktopFilters
       handleFilterByType={handleFilterByType}
       selectedTypes={selectedTypes}
       hasPromotion={hasPromotion}
@@ -74,6 +78,9 @@ export default () => {
       cityZones={cityZones}
       musicGenres={constants.musicGenres}
       nightTypes={constants.nightTypes}
+      restaurantsCategories={restaurantsCategories}
+      selectedCategories={selectedCategories}
+      onCategoriesChange={onCategoriesChange}
     />
   )
 }

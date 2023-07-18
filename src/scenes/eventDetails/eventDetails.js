@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { DatePicker, Button } from 'src/components'
 import { errorAlert } from 'src/helpers/alerts'
-import { extractTimeslots } from 'src/helpers/functions'
+import { extractTimeslots, formatDate } from 'src/helpers/functions'
 import { useStyle } from './style'
 
 const timeSlots = [
@@ -73,7 +73,9 @@ const EventDetails = ({
                 !selectedDate ? 'calendar' : 'calendar-green'
               }.png`}
             />
-            <span className={`${selectedDate && 'greenText'}`}>Data</span>
+            <span className={`${selectedDate && 'greenText'}`}>
+              {selectedDate ? formatDate(selectedDate['$d']) : 'Data'}
+            </span>
           </div>
           <div onClick={() => setStep(2)} className="time">
             <img
@@ -84,7 +86,7 @@ const EventDetails = ({
               }.png`}
             />
             <span className={`${selectedTimeSlots.length && 'greenText'}`}>
-              Ora
+              {selectedTimeSlots.length ? selectedTimeSlots[0].time : 'Ora'}
             </span>
           </div>
           <div onClick={() => setStep(3)} className="people">
@@ -95,7 +97,9 @@ const EventDetails = ({
                 !selectedPeople ? 'people' : 'people-green'
               }.png`}
             />
-            <span className={`${selectedPeople && 'greenText'}`}>Persone</span>
+            <span className={`${selectedPeople && 'greenText'}`}>
+              {selectedPeople || 'Persone'}
+            </span>
           </div>
         </div>
       </div>
@@ -112,7 +116,8 @@ const EventDetails = ({
               {extractTimeslots(resData?.timetable).map(item => (
                 <span
                   className={`${
-                    checkForMatches(item, selectedTimeSlots) && 'selected'
+                    checkForMatches(item, selectedTimeSlots, 'time') &&
+                    'selected'
                   }`}
                   onClick={() => handleTimeSlot(item)}
                 >
@@ -124,7 +129,7 @@ const EventDetails = ({
         )}
         {step === 3 && (
           <div className="people">
-            <h4>Seleziona tra le fasce orarie disponibili</h4>
+            <h4>Dicci il numero di persone</h4>
             <input
               value={selectedPeople}
               onChange={e => onPeopleChange(e.target.value)}

@@ -128,22 +128,26 @@ const restaurantSlice = createSlice({
       }
     },
     loadSelectedTimeSlots: (state, { payload }) => {
-      const foundItem = state.selectedTimeSlots.find(
-        item => payload.id === item.id,
-      )
-      let modifiedTimeSlots = [...state.selectedTimeSlots]
-      if (foundItem)
-        modifiedTimeSlots = modifiedTimeSlots.filter(
-          item => item.id !== foundItem.id,
-        )
-      else {
-        if (modifiedTimeSlots.length < 1) modifiedTimeSlots.push(payload)
-      }
-
       return {
         ...state,
-        selectedTimeSlots: modifiedTimeSlots,
+        selectedTimeSlots: [payload],
       }
+      //   const foundItem = state.selectedTimeSlots.find(
+      //   item => payload.id === item.id,
+      // )
+      // let modifiedTimeSlots = [...state.selectedTimeSlots]
+      // if (foundItem)
+      //   modifiedTimeSlots = modifiedTimeSlots.filter(
+      //     item => item.id !== foundItem.id,
+      //   )
+      // else {
+      //   if (modifiedTimeSlots.length < 1) modifiedTimeSlots.push(payload)
+      // }
+
+      // return {
+      //   ...state,
+      //   selectedTimeSlots: modifiedTimeSlots,
+      // }
     },
     loadSelectedDate: (state, { payload }) => ({
       ...state,
@@ -212,7 +216,7 @@ export const loadSelectedCity = actions.loadSelectedCity
 export const loadSelectedEventType = actions.loadSelectedEventType
 export const loadMusicGenres = actions.loadMusicGenres
 export const loadCityZones = actions.loadCityZones
-export const loadHasPromotion = actions.loadHasLowPrice
+export const loadHasPromotion = actions.loadHasPromotion
 export const loadHasLowPrice = actions.loadHasLowPrice
 export const loadConstants = actions.loadConstants
 export const loadConstantsByKey = actions.loadConstants

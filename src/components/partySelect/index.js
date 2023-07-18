@@ -14,7 +14,7 @@ const PartySelect = ({ items, selectedEvent, setSelectedEvent }) => {
   return (
     <div className={classes.container}>
       <div className="header">
-        <span>Cosa stai cercando?</span>
+        <span>{selectedEvent.value || 'Cosa stai cercando?'}</span>
         <img src="./images/down.png" alt="arrow" onClick={handleExpansion} />
       </div>
       {expanded && (

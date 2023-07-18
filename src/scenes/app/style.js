@@ -6,9 +6,9 @@ export const useStyle = makeStyles(theme => ({
     height: `100vh`,
     display: 'flex',
     justifyContent: 'center',
-    '& > *:not(:first-child)': {
-      width: '100%',
-      maxWidth: 720,
-    },
+    // '& > *:not(:first-child)': {
+    //   width: '100%',
+    //   maxWidth: 720,
+    // },
   },
 }))
