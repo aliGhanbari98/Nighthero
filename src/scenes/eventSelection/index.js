@@ -42,10 +42,7 @@ export default ({ desktopMode }) => {
   const selectedHasPromotion = useSelector(eventHasPromotionView)
   const selectedHasLowPrice = useSelector(eventHasLowPriceView)
 
-  console.log({ selectedTypes, selectedMusicGenres })
-
   const refreshData = (name = '') => {
-    console.log('refershing')
     dispatch(setIsLoading(true))
     searchRestaurantsReq({
       city: selectedCity.value,
@@ -71,7 +68,7 @@ export default ({ desktopMode }) => {
   }
 
   const onDateChange = newDate => {
-    console.log(JSON.stringify(new Date(newDate['$d'])))
+    // console.log(JSON.stringify(new Date(newDate['$d'])))
     dispatch(loadSelectedDate(newDate))
   }
   const onPeopleChange = newPeople => {

@@ -1,16 +1,27 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Button } from 'src/components'
+
+import { Button, MyModal } from 'src/components'
 import { useStyle } from './style'
 
 const BookingMethod = ({
   resData,
   selectedEvent,
-  confirmedBookingMethod = 0,
   onConfirm,
+  infoModalIsOpen,
+  setInfoModalIsOpen,
+  confirmedBookingMethod = 0,
+  guestUserInfo,
 }) => {
+  const [fullName, setFullName] = useState(guestUserInfo.fullName)
+  const [email, setEmail] = useState(guestUserInfo.email)
+  const [bookingMethod, setBookingMethod] = useState(0)
+
+  const finalBookingMethod = bookingMethod || confirmedBookingMethod
+
   const navigate = useNavigate()
-  const classes = useStyle({ confirmedBookingMethod })
+
+  const classes = useStyle({ finalBookingMethod })
 
   const {
     discount,
@@ -24,7 +35,7 @@ const BookingMethod = ({
   return (
     <div className={classes.container}>
       <div className="photoContainer">
-        <img alt="place" src="./images/danceNight.jpg" />
+        <img alt="place" src={resData?.restaurant.image} />
         <div
           onClick={() => navigate('/event-offers')}
           className="closeButtonContainer"
@@ -42,10 +53,8 @@ const BookingMethod = ({
         <div className="itemsContainer">
           {payAll && (
             <div
-              onClick={() => onConfirm(1)}
-              className={`item total ${
-                confirmedBookingMethod === 1 && 'selected'
-              }`}
+              onClick={() => setBookingMethod(1)}
+              className={`item total ${finalBookingMethod === 1 && 'selected'}`}
             >
               <span className="text">Paga tutto</span>
               <span className="percentage">{discount}%</span>
@@ -54,10 +63,8 @@ const BookingMethod = ({
           )}
           {payPartially && (
             <div
-              onClick={() => onConfirm(2)}
-              className={`item total ${
-                confirmedBookingMethod === 2 && 'selected'
-              }`}
+              onClick={() => setBookingMethod(2)}
+              className={`item total ${finalBookingMethod === 2 && 'selected'}`}
             >
               <span className="text notBold">Acconto {partialPayPercent}%</span>
               <span className="percentage">{partialDiscount}%</span>
@@ -66,24 +73,63 @@ const BookingMethod = ({
           )}
           {payAfter && (
             <div
-              onClick={() => onConfirm(3)}
-              className={`item ${confirmedBookingMethod === 3 && 'selected'}`}
+              onClick={() => setBookingMethod(3)}
+              className={`item ${finalBookingMethod === 3 && 'selected'}`}
             >
               Prenotazione gratuita
             </div>
           )}
         </div>
       </div>
-      {confirmedBookingMethod !== 0 && (
+      {finalBookingMethod !== 0 && (
         <div className="buttonContainer">
           <Button
             onClick={() => {
-              navigate('/payment')
+              onConfirm({ finalBookingMethod, fullName, email })
             }}
             label="Vai al pagamento"
           />
         </div>
       )}
+      <MyModal
+        handleClose={() => setInfoModalIsOpen(false)}
+        open={infoModalIsOpen}
+        maxWidth={400}
+      >
+        <div className={classes.infoModalContainer}>
+          <span>
+            Inserisci il tuo nome completo e la tua email e ti registreremo
+            automaticamente dopo il pagamento
+          </span>
+          <input
+            className="fullName"
+            placeholder="Nome e Cognome"
+            value={fullName}
+            onChange={e => setFullName(e.target.value)}
+          />
+          <input
+            className="email"
+            placeholder="Email"
+            type="email"
+            value={email}
+            onChange={e => setEmail(e.target.value)}
+          />
+          <div className="buttonContainer">
+            {fullName && email && (
+              <Button
+                label="Conferma"
+                onClick={() => {
+                  onConfirm({
+                    bookingMethod: finalBookingMethod,
+                    fullName,
+                    email,
+                  })
+                }}
+              />
+            )}
+          </div>
+        </div>
+      </MyModal>
     </div>
   )
 }

@@ -9,7 +9,6 @@ export const deleteItemAlert = callback => {
     dangerMode: true,
   }).then(willDelete => {
     if (willDelete) {
-      console.log('alert reached')
       callback()
     }
   })

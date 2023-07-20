@@ -109,8 +109,6 @@ const EventSelection = ({
     onPeopleChange(people)
   }
 
-  console.log({ selectedCity })
-
   const classes = useStyle({
     calendarModalOpen,
     timeModalOpen,
@@ -296,7 +294,7 @@ const EventSelection = ({
             </div>
           </div>
         )}
-        {!desktopMode && <hr className="line" />}{' '}
+        {!desktopMode && <hr className="line" />}
         {!desktopMode && (
           <div className="filterTextContainer">
             <span>{restaurantsData.length} locali filtrati per te</span>
@@ -304,9 +302,11 @@ const EventSelection = ({
         )}
         <div className="mainContainer">
           <div className="foundItemsContainer">
-            <div className="descContainer">
-              <span>I LOCALI A {selectedCity.key.toUpperCase()} PER TE</span>
-            </div>
+            {desktopMode && (
+              <div className="descContainer">
+                <span>I LOCALI A {selectedCity.key.toUpperCase()} PER TE</span>
+              </div>
+            )}
             {restaurantsData.length
               ? restaurantsData.map(item => (
                   <FoundItem

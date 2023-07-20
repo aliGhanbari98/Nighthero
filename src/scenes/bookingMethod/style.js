@@ -30,6 +30,7 @@ export const useStyle = makeStyles(theme => ({
         width: '100%',
         maxHeight: 260,
         minHeight: 260,
+        objectFit: 'cover',
       },
       '& > .infoContainer': {
         position: 'absolute',
@@ -112,6 +113,35 @@ export const useStyle = makeStyles(theme => ({
       '& > button': {
         width: 160,
         backgroundColor: theme.palette.secondary.main,
+      },
+    },
+  },
+  infoModalContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    '& > span': {
+      paddingBottom: 15,
+      fontWeight: 'bold',
+      fontSize: 16,
+      textAlign: 'center',
+    },
+    '& > input': {
+      marginTop: 15,
+      height: 30,
+      borderRadius: 5,
+      border: 'none',
+      boxShadow: '2px 2px 2px 2px rgba(0, 0, 255, .1);',
+      padding: 10,
+    },
+    '& > .buttonContainer': {
+      width: '100%',
+      marginTop: 30,
+      display: 'flex',
+      justifyContent: 'end',
+      '& > button': {
+        width: 100,
+        background: theme.palette.ui.green,
+        color: 'white',
       },
     },
   },

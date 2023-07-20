@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Button, Switch, AutoComplete } from 'src/components'
+import { Button, Switch, AutoComplete, MyModal } from 'src/components'
 import { errorAlert } from 'src/helpers/alerts'
 import { useStyle } from './style'
 
@@ -58,6 +58,7 @@ const Payment = ({
   const [giftApplied, setGiftApplied] = useState(false)
   const [giftData, setGiftData] = useState({})
   const [selectedMethod, setSelectedMethod] = useState(0)
+
   const [month, setMonth] = useState({ key: '', value: '' })
   const [year, setYear] = useState({ key: '', value: '' })
 
@@ -154,7 +155,7 @@ const Payment = ({
             )}
             <div className="reservation">Mod. di prenotazione</div>
             <div className="advancePayment">
-              <span className="title">{extractedBookingMethod.text}</span>
+              <span className="title">{extractedBookingMethod?.text}</span>
               <span className="price">€{priceByBookingMethod}</span>
             </div>
           </div>
@@ -221,7 +222,7 @@ const Payment = ({
           <Button
             onClick={() => {
               onConfirm()
-              navigate('/booking-method')
+              // navigate('/booking-method')
             }}
             label="Paga"
           />

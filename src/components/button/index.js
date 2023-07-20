@@ -8,12 +8,13 @@ const Button = ({
   textColor,
   backgroundColor,
   hollow,
+  disabled,
   ...props
 }) => {
   const classes = useStyle({ color, hollow, textColor, backgroundColor })
 
   return (
-    <button onClick={onClick} className={classes.button}>
+    <button disabled={disabled} onClick={onClick} className={classes.button}>
       {label}
     </button>
   )

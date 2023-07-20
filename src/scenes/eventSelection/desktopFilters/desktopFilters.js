@@ -27,12 +27,12 @@ const DesktopFilters = ({
   const elementRefs = [useRef(null), useRef(null), useRef(null), useRef(null)]
 
   const scrollToElement = index => {
-    // if (elementRefs[index].current) {
-    //   elementRefs[index].current.scrollIntoView({
-    //     behavior: 'smooth',
-    //     block: 'start',
-    //   })
-    // }
+    if (elementRefs[index].current) {
+      elementRefs[index].current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      })
+    }
   }
 
   return (

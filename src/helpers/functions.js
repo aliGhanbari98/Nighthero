@@ -6,12 +6,10 @@ export const checkForMatches = (item, array, checkKey = 'id') => {
 }
 
 function getItemByWeekday(date, items) {
-  console.log({ date })
   const weekday = date
     .toLocaleDateString('en-US', { weekday: 'short' })
     .toUpperCase()
   const item = items.find(item => item.weekday === weekday)
-  console.log(item)
   return item || null
 }
 

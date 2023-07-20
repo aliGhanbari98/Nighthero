@@ -113,7 +113,7 @@ const Home = ({
           </div>
         </div>
       </div>
-      {loginModalExpanded && <Login />}
+      {loginModalExpanded && <Login desktopMode={desktopMode} />}
     </div>
   )
 }

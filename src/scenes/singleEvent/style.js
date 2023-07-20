@@ -39,6 +39,7 @@ export const useStyle = makeStyles(theme => ({
       maxHeight: 300,
       minHeight: 300,
       position: 'relative',
+      justifyContent: 'center',
       '& > .photo': {
         position: 'relative',
         '& > img': {

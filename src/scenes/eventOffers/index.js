@@ -12,10 +12,10 @@ import {
 } from '../_slice/event.slice.js'
 
 const extractFinalEvent = events => {
-  if (events.length > 1) {
-    const specialOnes = events.filter(({ isSpecial }) => !isSpecial)
-    return specialOnes[0]
-  } else return events[0]
+  const specialOnes = events.filter(({ isSpecial }) => isSpecial)
+  const regularOne = events.find(({ isSpecial }) => !isSpecial)
+  if (specialOnes.length >= 1) return specialOnes[0]
+  else return regularOne
 }
 
 export default () => {
@@ -38,7 +38,7 @@ export default () => {
     const timeToDate = new Date(timeTo)
     const isInRange =
       combinedDateTime >= timeFromDate && combinedDateTime <= timeToDate
-    return isInRange
+    return isInRange || !event.isSpecial // return the event if it was regular no matter what
   })
 
   const eventData = extractFinalEvent(filteredEvents)

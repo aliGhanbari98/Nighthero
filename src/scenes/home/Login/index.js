@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux'
 import { setLoginModalExpanded } from '../../_slice/view.slice'
 import { loginReq } from 'src/services/auth'
 
-export default ({}) => {
+export default ({ desktopMode }) => {
   const dispatch = useDispatch()
   const onClose = () => {
     dispatch(setLoginModalExpanded(false))
@@ -28,6 +28,7 @@ export default ({}) => {
       setPassword={setPassword}
       onClose={onClose}
       onLoginClick={onLoginClick}
+      desktopMode={desktopMode}
     />
   )
 }

@@ -13,8 +13,9 @@ const Login = ({
   password,
   setPassword,
   onLoginClick,
+  desktopMode,
 }) => {
-  const classes = useStyle()
+  const classes = useStyle({ desktopMode })
   const navigate = useNavigate()
 
   const [event, setEvent] = useState('')

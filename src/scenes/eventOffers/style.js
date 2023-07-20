@@ -30,6 +30,7 @@ export const useStyle = makeStyles(theme => ({
         width: '100%',
         maxHeight: 330,
         minHeight: 330,
+        objectFit: 'cover',
       },
       '& > .infoContainer': {
         position: 'absolute',

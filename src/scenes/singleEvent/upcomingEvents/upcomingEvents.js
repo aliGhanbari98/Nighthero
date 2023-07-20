@@ -61,7 +61,6 @@ const UpcomingEvents = ({ data, resData }) => {
     const el = document.getElementById('upcomingEventsBody')
 
     const topPosition = el.getBoundingClientRect().top
-    console.log(topPosition)
     const threshold = showFixedHeader ? 0 : 250 // Adjust this value to determine when to show/hide the fixed header
     if (topPosition < threshold) {
       setShowFixedHeader(true)

@@ -34,14 +34,16 @@ const SingleEvent = ({ data, selectedNightTypes, resMenu, desktopMode }) => {
 
   return !data ? null : (
     <div className={classes.container}>
-      <div className="header">
-        <div onClick={() => navigate('/')} className="left">
-          <img src={LogoSVG} alt="logo" />
+      {desktopMode && (
+        <div className="header">
+          <div onClick={() => navigate('/')} className="left">
+            <img src={LogoSVG} alt="logo" />
+          </div>
+          <div className="right">
+            <img alt="profile" src="./images/user.png" />
+          </div>
         </div>
-        <div className="right">
-          <img alt="profile" src="./images/user.png" />
-        </div>
-      </div>
+      )}
       <div className="photosContainer">
         {data?.images?.map((image, index) => (
           <div className="photo">

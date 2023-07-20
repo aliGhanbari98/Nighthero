@@ -61,7 +61,7 @@ const EventOffers = ({
   return (
     <div className={classes.container}>
       <div className="photoContainer">
-        <img alt="place" src="./images/danceNight.jpg" />
+        <img alt="place" src={resData?.restaurant.image} />
         <div
           onClick={() => navigate('/event-details')}
           className="closeButtonContainer"
