@@ -88,6 +88,7 @@ const EventSelection = ({
   onHeaderModalClose,
   desktopMode,
   selectedCity,
+  onProfileClick,
 }) => {
   const navigate = useNavigate()
 
@@ -173,9 +174,15 @@ const EventSelection = ({
           <img src={LogoSVG} alt="logo" />
         </div>
         {!desktopMode && (
-          <div onClick={() => setSearchHeaderExpanded(true)} className="right">
-            <span>Serata di ballo - TO</span>
-            <img alt="profile" src="./images/user.png" />
+          <div className="right">
+            <span onClick={() => setSearchHeaderExpanded(true)}>
+              Serata di ballo - TO
+            </span>
+            <img
+              onClick={onProfileClick}
+              alt="profile"
+              src="./images/user.png"
+            />
           </div>
         )}
 
@@ -196,7 +203,11 @@ const EventSelection = ({
                 />
               </div>
             </div>
-            <img alt="profile" src="./images/user.png" />
+            <img
+              onClick={onProfileClick}
+              alt="profile"
+              src="./images/user.png"
+            />
           </div>
         )}
       </div>

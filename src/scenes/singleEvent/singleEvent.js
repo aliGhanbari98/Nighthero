@@ -26,7 +26,13 @@ const extractFirstItemOfMenu = resMenu => {
   return { cat: firstCategory, product: firstCategoryProducts }
 }
 
-const SingleEvent = ({ data, selectedNightTypes, resMenu, desktopMode }) => {
+const SingleEvent = ({
+  data,
+  selectedNightTypes,
+  resMenu,
+  desktopMode,
+  onProfileClick,
+}) => {
   const navigate = useNavigate()
   const classes = useStyle({ desktopMode })
 
@@ -40,7 +46,11 @@ const SingleEvent = ({ data, selectedNightTypes, resMenu, desktopMode }) => {
             <img src={LogoSVG} alt="logo" />
           </div>
           <div className="right">
-            <img alt="profile" src="./images/user.png" />
+            <img
+              onClick={onProfileClick}
+              alt="profile"
+              src="./images/user.png"
+            />
           </div>
         </div>
       )}

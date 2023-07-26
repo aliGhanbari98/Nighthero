@@ -9,6 +9,7 @@ import MyModal from './modal'
 import DatePicker from './datePicker'
 import Input from './input'
 import MySlider from './slider'
+import Profile from './profile'
 
 export {
   Loading,
@@ -22,4 +23,5 @@ export {
   DatePicker,
   Input,
   MySlider,
+  Profile,
 }

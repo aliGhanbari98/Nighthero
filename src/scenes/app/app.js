@@ -2,7 +2,11 @@ import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useMediaQuery } from '@material-ui/core'
 import { useTheme } from '@material-ui/core/styles'
-import { viewIsLoading } from '../_slice/view.slice'
+import {
+  viewIsLoading,
+  viewProfileIsOpen,
+  setProfileIsOpen,
+} from '../_slice/view.slice'
 import Home from '../home'
 import EventSelection from '../eventSelection'
 import FilterPage from '../eventSelection/filterPage'
@@ -15,18 +19,22 @@ import UpcomingEvents from '../singleEvent/upcomingEvents'
 import Payment from '../payment'
 import Register from '../home/register'
 import Gallery from '../gallery'
-import { Loading } from 'src/components'
-import { Route, Routes, useNavigate, HashRouter } from 'react-router-dom'
+import { Loading, Profile } from 'src/components'
+import {
+  Route,
+  Routes,
+  useNavigate,
+  HashRouter,
+  useLocation,
+} from 'react-router-dom'
 import { getConstantsReq } from 'src/services/constants'
 import { loadConstants, eventSelectedCityView } from '../_slice/event.slice'
 import { useStyle } from './style'
 
-const Body = () => {
+const Body = ({ desktopMode, profileIsOpen }) => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const theme = useTheme()
-
-  const desktopMode = useMediaQuery(theme.breakpoints.up('sm'))
+  const location = useLocation()
 
   const selectedCity = useSelector(eventSelectedCityView)
 
@@ -39,6 +47,12 @@ const Body = () => {
       dispatch(loadConstants(data))
     })
   }, [])
+
+  // console.log({ location })
+
+  // useEffect(() => {
+  //   if (profileIsOpen) dispatch(setProfileIsOpen())
+  // }, [location.pathname, profileIsOpen])
 
   return (
     <Routes>
@@ -109,14 +123,23 @@ const Body = () => {
 }
 
 const App = () => {
-  const classes = useStyle()
+  const theme = useTheme()
+  const desktopMode = useMediaQuery(theme.breakpoints.up('sm'))
+
+  const classes = useStyle({ desktopMode })
   const open = useSelector(viewIsLoading)
+  const profileIsOpen = useSelector(viewProfileIsOpen)
 
   return (
     <div className={classes.root}>
       <Loading open={open} />
+      {profileIsOpen && (
+        <div className="profileContainer">
+          <Profile />
+        </div>
+      )}
       <HashRouter>
-        <Body />
+        <Body profileIsOpen={profileIsOpen} desktopMode={desktopMode} />
       </HashRouter>
     </div>
   )

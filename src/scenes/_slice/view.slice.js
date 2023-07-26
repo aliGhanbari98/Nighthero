@@ -5,6 +5,7 @@ const initialState = {
   visitedSteps: [],
   deliveryIsAdded: false,
   loginModalExpanded: false,
+  profileIsOpen: false,
 }
 
 const viewSlice = createSlice({
@@ -27,6 +28,11 @@ const viewSlice = createSlice({
       ...state,
       loginModalExpanded: payload,
     }),
+    setProfileIsOpen: (state, { payload }) =>
+      console.log({ payload }) || {
+        ...state,
+        profileIsOpen: !state.profileIsOpen,
+      },
   },
 })
 
@@ -39,9 +45,11 @@ export const setVisitedSteps = actions.setVisitedSteps
 export const setDeliveryAdded = actions.setDeliveryIsAdded
 export const resetViewSlice = actions.resetViewSlice
 export const setLoginModalExpanded = actions.setLoginModalexpanded
+export const setProfileIsOpen = actions.setProfileIsOpen
 
 // VIEW
 export const viewIsLoading = state => state.view.isLoading
 export const viewVisitedSteps = state => state.view.visitedSteps
 export const viewDeliveryIsAdded = state => state.view.deliveryIsAdded
 export const viewLoginModalExpanded = state => state.view.loginModalExpanded
+export const viewProfileIsOpen = state => state.view.profileIsOpen

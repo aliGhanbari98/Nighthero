@@ -8,7 +8,7 @@ import {
   eventFilteredTypesView,
   loadSelectedRestaurantEvents,
 } from '../_slice/event.slice'
-import { setIsLoading } from '../_slice/view.slice'
+import { setIsLoading, setProfileIsOpen } from '../_slice/view.slice'
 import {
   getRestaurantById,
   getRestaurantMenu,
@@ -24,6 +24,8 @@ export default ({ desktopMode }) => {
 
   const restaurantData = useSelector(eventSelectedRestaurantView)
   const selectedNightTypes = useSelector(eventFilteredTypesView)
+
+  const onProfileClick = () => dispatch(setProfileIsOpen())
 
   useEffect(() => {
     dispatch(setIsLoading(true))
@@ -45,6 +47,7 @@ export default ({ desktopMode }) => {
       selectedNightTypes={selectedNightTypes}
       resMenu={resMenu}
       desktopMode={desktopMode}
+      onProfileClick={onProfileClick}
     />
   )
 }

@@ -18,7 +18,7 @@ import {
   eventHasPromotionView,
   eventHasLowPriceView,
 } from '../_slice/event.slice.js'
-import { setIsLoading } from '../_slice/view.slice'
+import { setIsLoading, setProfileIsOpen } from '../_slice/view.slice'
 import { searchRestaurantsReq } from 'src/services/restaurant'
 
 export default ({ desktopMode }) => {
@@ -77,6 +77,8 @@ export default ({ desktopMode }) => {
   const onCategoriesChange = newCat => {
     dispatch(loadSelectedCategories(newCat))
   }
+
+  const onProfileClick = () => dispatch(setProfileIsOpen())
   // const onRestaurantClick = res => {
   //   dispatch(loadSelectedRestaurant)
   // }
@@ -121,6 +123,7 @@ export default ({ desktopMode }) => {
       onHeaderModalClose={onHeaderModalClose}
       desktopMode={desktopMode}
       selectedCity={selectedCity}
+      onProfileClick={onProfileClick}
     />
   )
 }
