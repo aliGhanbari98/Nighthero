@@ -28,11 +28,10 @@ const viewSlice = createSlice({
       ...state,
       loginModalExpanded: payload,
     }),
-    setProfileIsOpen: (state, { payload }) =>
-      console.log({ payload }) || {
-        ...state,
-        profileIsOpen: !state.profileIsOpen,
-      },
+    setProfileIsOpen: (state, { payload }) => ({
+      ...state,
+      profileIsOpen: !state.profileIsOpen,
+    }),
   },
 })
 

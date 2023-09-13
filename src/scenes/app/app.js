@@ -19,6 +19,7 @@ import UpcomingEvents from '../singleEvent/upcomingEvents'
 import Payment from '../payment'
 import Register from '../home/register'
 import Gallery from '../gallery'
+import OffersAndBooking from '../offersAndBooking'
 import { Loading, Profile } from 'src/components'
 import {
   Route,
@@ -34,7 +35,7 @@ import { useStyle } from './style'
 const Body = ({ desktopMode, profileIsOpen }) => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const location = useLocation()
+  const { pathname } = useLocation()
 
   const selectedCity = useSelector(eventSelectedCityView)
 
@@ -48,11 +49,9 @@ const Body = ({ desktopMode, profileIsOpen }) => {
     })
   }, [])
 
-  // console.log({ location })
-
-  // useEffect(() => {
-  //   if (profileIsOpen) dispatch(setProfileIsOpen())
-  // }, [location.pathname, profileIsOpen])
+  useEffect(() => {
+    if (profileIsOpen) dispatch(setProfileIsOpen())
+  }, [pathname])
 
   return (
     <Routes>
@@ -118,6 +117,12 @@ const Body = ({ desktopMode, profileIsOpen }) => {
         name="Gallery"
         element={<Gallery desktopMode={desktopMode} />}
       />
+      <Route
+        exact
+        path="/offers-booking"
+        name="OffersAndBooking"
+        element={<OffersAndBooking desktopMode={desktopMode} />}
+      />
     </Routes>
   )
 }
@@ -133,11 +138,10 @@ const App = () => {
   return (
     <div className={classes.root}>
       <Loading open={open} />
-      {profileIsOpen && (
-        <div className="profileContainer">
-          <Profile />
-        </div>
-      )}
+
+      <div className={`profileContainer ${profileIsOpen ? 'open' : 'closed'}`}>
+        <Profile />
+      </div>
       <HashRouter>
         <Body profileIsOpen={profileIsOpen} desktopMode={desktopMode} />
       </HashRouter>

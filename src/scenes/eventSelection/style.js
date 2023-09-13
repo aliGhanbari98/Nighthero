@@ -254,7 +254,7 @@ export const useStyle = makeStyles(theme => ({
       },
       '& > .mainContainer': {
         display: 'flex',
-        paddingBottom: 100,
+        paddingBottom: 50,
         padding: 10,
         overflowY: ({ desktopMode }) => (desktopMode ? 'auto' : ''),
         '& > .foundItemsContainer': {

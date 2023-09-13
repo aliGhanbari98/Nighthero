@@ -10,7 +10,7 @@ import {
   eventSelectedRestaurantView,
 } from '../_slice/event.slice.js'
 
-export default () => {
+export default ({ desktopMode }) => {
   const dispatch = useDispatch()
 
   const selectedTimeSlots = useSelector(eventSelectedTimeSlots)
@@ -36,6 +36,7 @@ export default () => {
       onDateChange={onDateChange}
       onPeopleChange={onPeopleChange}
       resData={restaurantData}
+      desktopMode={desktopMode}
     />
   )
 }

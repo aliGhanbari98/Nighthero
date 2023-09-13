@@ -42,11 +42,12 @@ const EventOffers = ({
   eventData,
   onConfirmClick,
   confirmedOffer,
+  desktopMode,
 }) => {
   const navigate = useNavigate()
   const [selectedOffer, setSelectedOffer] = useState(0)
   const [selectedOfferWidth, setSelectedOfferWidth] = useState(160)
-  const classes = useStyle({ selectedOffer, selectedOfferWidth })
+  const classes = useStyle({ selectedOffer, selectedOfferWidth, desktopMode })
 
   const onOfferClick = (elId, offerId) => {
     setSelectedOffer(offerId)

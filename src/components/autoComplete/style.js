@@ -58,6 +58,7 @@ export const useStyle = makeStyles(theme => ({
 
     '& .MuiInput-input': {
       borderBottom: 'none',
+      width: '100%',
       height: '100%',
       paddingLeft: 5,
     },
@@ -82,5 +83,9 @@ export const useStyle = makeStyles(theme => ({
     '& .Mui-focused': {
       outline: 'none',
     },
+    '& .MuiAutocomplete-clearIndicator': {
+      display: 'none',
+    },
+    '& .MuiInput-underline': {},
   },
 }))

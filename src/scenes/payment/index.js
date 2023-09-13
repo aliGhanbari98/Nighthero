@@ -19,7 +19,7 @@ const bookingMethodsDic = {
   3: 'PAY_AFTER',
 }
 
-export default () => {
+export default ({ desktopMode }) => {
   const dispatch = useDispatch()
 
   const restaurantData = useSelector(eventSelectedRestaurantView)
@@ -56,6 +56,7 @@ export default () => {
       selectedPeople={selectedPeople}
       onConfirm={onConfirm}
       userGift={200}
+      desktopMode={desktopMode}
     />
   )
 }

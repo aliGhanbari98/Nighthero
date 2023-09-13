@@ -53,6 +53,7 @@ const Payment = ({
   selectedOffer,
   selectedPeople,
   userGift,
+  desktopMode,
 }) => {
   const navigate = useNavigate()
   const [giftApplied, setGiftApplied] = useState(false)
@@ -103,9 +104,12 @@ const Payment = ({
   return (
     <div id="payment-container" className={classes.container}>
       <div className="photoContainer">
-        <img alt="place" src="./images/danceNight.jpg" />
+        <img alt="place" src={resData?.restaurant.image} />
         <div
-          onClick={() => navigate('/booking-method')}
+          onClick={() => {
+            if (!desktopMode) navigate('/booking-method')
+            else navigate('/offers-booking')
+          }}
           className="closeButtonContainer"
         >
           annulla
@@ -168,7 +172,7 @@ const Payment = ({
           </div>
           <Switch value={giftApplied} onChange={onGiftSwitchClick} />
         </div>
-        <div className="methods">
+        {/* <div className="methods">
           <div className="title">Scegli metodo di pagamento</div>
           <div className="items">
             <img
@@ -196,8 +200,8 @@ const Payment = ({
               src="./images/paypal.png"
             />
           </div>
-        </div>
-        {selectedMethod !== 0 && (
+        </div> */}
+        {/* {selectedMethod !== 0 && (
           <div id="cardData" className="cardData">
             <div>
               <input className="cardNumber" placeholder="Numero carta" />
@@ -215,19 +219,19 @@ const Payment = ({
               <input className="cardHolder" placeholder="Intestata a" />
             </div>
           </div>
-        )}
+        )} */}
       </div>
-      {selectedMethod !== 0 && (
-        <div className="footerButtonContainer">
-          <Button
-            onClick={() => {
-              onConfirm()
-              // navigate('/booking-method')
-            }}
-            label="Paga"
-          />
-        </div>
-      )}
+      {/* {selectedMethod !== 0 && ( */}
+      <div className="footerButtonContainer">
+        <Button
+          onClick={() => {
+            onConfirm()
+            // navigate('/booking-method')
+          }}
+          label="Paga"
+        />
+      </div>
+      {/* )} */}
     </div>
   )
 }

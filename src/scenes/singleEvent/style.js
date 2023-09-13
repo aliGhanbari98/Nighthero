@@ -34,13 +34,13 @@ export const useStyle = makeStyles(theme => ({
       },
     },
     '& > .photosContainer': {
+      width: '100%',
       display: 'flex',
       overflowX: 'auto',
       overflowY: 'hidden',
       maxHeight: 300,
       minHeight: 300,
       position: 'relative',
-      justifyContent: 'center',
       '& > .photo': {
         position: 'relative',
         '& > img': {

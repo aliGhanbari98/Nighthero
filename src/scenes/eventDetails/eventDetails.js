@@ -29,6 +29,7 @@ const EventDetails = ({
   onDateChange,
   onPeopleChange,
   resData,
+  desktopMode,
 }) => {
   const navigate = useNavigate()
   const [step, setStep] = useState(1)
@@ -141,9 +142,11 @@ const EventDetails = ({
           {handleButtonVisibility() && (
             <Button
               onClick={() => {
+                console.log({ desktopMode })
                 setStep(prevValue => {
                   if (prevValue === 3) {
-                    navigate('/event-offers')
+                    if (!desktopMode) navigate('/event-offers')
+                    else navigate('/offers-booking')
                     return prevValue
                   }
                   return prevValue + 1

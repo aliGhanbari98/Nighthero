@@ -1,4 +1,6 @@
-import EventOffers from './eventOffers'
+import { useState } from 'react'
+import OffersAndBooking from './offersAndBooking'
+import { useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import {
   eventSelectedTimeSlots,
@@ -9,7 +11,11 @@ import {
   loadSelectedOffer,
   eventSelectedOfferView,
   loadFinalEvent,
+  loadSelectedBookingMethod,
+  eventSelectedBookingMethodView,
+  eventFinalEventView,
 } from '../_slice/event.slice.js'
+import { loadGuestUserInfo, guestUserInfoView } from '../_slice/user.slice.js'
 
 const extractFinalEvent = events => {
   const specialOnes = events.filter(({ isSpecial }) => isSpecial)
@@ -20,6 +26,9 @@ const extractFinalEvent = events => {
 
 export default ({ desktopMode }) => {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+  const [infoModalIsOpen, setInfoModalIsOpen] = useState(false)
 
   const selectedTimeSlots = useSelector(eventSelectedTimeSlots)
   const selectedDate = useSelector(eventSelectedDateView)
@@ -27,6 +36,10 @@ export default ({ desktopMode }) => {
   const restaurantData = useSelector(eventSelectedRestaurantView)
   const resEvents = useSelector(eventSelectedRestaurantEventsView)
   const confirmedOffer = useSelector(eventSelectedOfferView)
+
+  const confirmedBookingMethod = useSelector(eventSelectedBookingMethodView)
+  const selectedEvent = useSelector(eventFinalEventView)
+  const guestUserInfo = useSelector(guestUserInfoView)
 
   const transformedDate = new Date(selectedDate['$d'])
   const time = selectedTimeSlots[0].time
@@ -43,20 +56,37 @@ export default ({ desktopMode }) => {
 
   const eventData = extractFinalEvent(filteredEvents)
 
-  const onConfirmClick = offer => {
+  const onConfirmOfferClick = offer => {
     dispatch(loadSelectedOffer(offer))
     dispatch(loadFinalEvent(eventData))
   }
+
+  const onBookingMethodConfirm = ({ bookingMethod, fullName, email }) => {
+    // check if the user is not logged in and then open the modal
+    if (!infoModalIsOpen) setInfoModalIsOpen(true)
+    else {
+      dispatch(loadSelectedBookingMethod(bookingMethod))
+      dispatch(loadGuestUserInfo({ fullName, email }))
+      navigate('/payment')
+    }
+  }
+
   return (
-    <EventOffers
+    <OffersAndBooking
       selectedTimeSlots={selectedTimeSlots}
       selectedDate={selectedDate}
       selectedPeople={selectedPeople}
       resData={restaurantData}
       eventData={extractFinalEvent(filteredEvents)}
       confirmedOffer={confirmedOffer}
-      onConfirmClick={onConfirmClick}
+      onConfirmOfferClick={onConfirmOfferClick}
       desktopMode={desktopMode}
+      onBookingMethodConfirm={onBookingMethodConfirm}
+      confirmedBookingMethod={confirmedBookingMethod}
+      selectedEvent={selectedEvent}
+      guestUserInfo={guestUserInfo}
+      infoModalIsOpen={infoModalIsOpen}
+      setInfoModalIsOpen={setInfoModalIsOpen}
     />
   )
 }

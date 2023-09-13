@@ -1,6 +1,3 @@
-import { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
-import { useNavigate, useParams, useLocation } from 'react-router-dom'
 import App from './app'
 
 export default () => {
