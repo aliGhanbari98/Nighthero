@@ -34,6 +34,27 @@ export const useStyle = makeStyles(theme => ({
       },
       zIndex: 100,
     },
+    '& > .navigationButtonsContainer': {
+      width: '100%',
+      // height: 50,
+      display: 'flex',
+      justifyContent: ({ isFirstImage, isLastImage }) =>
+        isFirstImage ? 'end' : isLastImage ? 'start' : 'space-between',
+      alignItems: 'center',
+      padding: 15,
+      zIndex: 201,
+      '& > .buttonContainer': {
+        display: 'flex',
+        backgroundColor: '#525250',
+        borderRadius: '50%',
+        padding: 8,
+        opacity: 0.6,
+        '& > img': {
+          maxHeight: 18,
+        },
+        zIndex: 100,
+      },
+    },
     '& > .sliderContainer': {
       width: '100%',
       '& > img': {

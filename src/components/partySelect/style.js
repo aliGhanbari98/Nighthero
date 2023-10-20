@@ -11,7 +11,7 @@ export const useStyle = makeStyles(theme => ({
       alignItems: 'center',
       padding: '5px 7px',
       '& > span': {
-        fontSize: 15,
+        fontSize: 14,
       },
       '& > img': {
         maxWidth: 25,
@@ -24,6 +24,7 @@ export const useStyle = makeStyles(theme => ({
     },
     '& > .options': {
       width: '100%',
+      height: 240,
       position: 'absolute',
       zIndex: 0,
       top: 40,
@@ -31,9 +32,11 @@ export const useStyle = makeStyles(theme => ({
       borderRadius: '0 0 10px 10px',
       display: 'flex',
       flexDirection: 'column',
-      justifyContent: 'center',
+      boxShadow: '1px 1px 1px 1px rgba(0, 0, 255, .1);',
+      // justifyContent: 'center',
       alignItems: 'center',
-      padding: '0 10px',
+      // padding: '0 10px',
+      overflowY: 'auto',
       '& > .item': {
         display: 'flex',
         justifyContent: 'space-between',
@@ -54,7 +57,7 @@ export const useStyle = makeStyles(theme => ({
         },
         '& > span': {
           paddingLeft: 15,
-          fontSize: 15,
+          fontSize: 13,
           flex: 1,
         },
       },

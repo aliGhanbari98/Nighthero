@@ -30,9 +30,9 @@ const PartySelect = ({ items, selectedEvent, setSelectedEvent }) => {
               <span>{item.value}</span>
             </div>
           ))}
-          <div className="otherOption">
+          {/* <div className="otherOption">
             <span>altro...</span>
-          </div>
+          </div> */}
         </div>
       )}
     </div>

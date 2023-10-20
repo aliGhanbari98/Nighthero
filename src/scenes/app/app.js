@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useMediaQuery } from '@material-ui/core'
 import { useTheme } from '@material-ui/core/styles'
@@ -131,12 +131,32 @@ const App = () => {
   const theme = useTheme()
   const desktopMode = useMediaQuery(theme.breakpoints.up('sm'))
 
+  const [rootHeight, setRootHeight] = useState(window.innerHeight)
+
   const classes = useStyle({ desktopMode })
   const open = useSelector(viewIsLoading)
   const profileIsOpen = useSelector(viewProfileIsOpen)
 
+  // document.getElementById('my_root').style.height = window.innerHeight
+
+  useEffect(() => {
+    // Set the root height to the window's inner height when the component mounts
+    setRootHeight(window.innerHeight)
+
+    // Set up an event listener to update the root height when the window is resized
+    const handleResize = () => {
+      setRootHeight(window.innerHeight)
+    }
+    window.addEventListener('resize', handleResize)
+
+    // Clean up the event listener when the component unmounts
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
+
   return (
-    <div className={classes.root}>
+    <div id="my_root" className={classes.root} style={{ height: rootHeight }}>
       <Loading open={open} />
 
       <div className={`profileContainer ${profileIsOpen ? 'open' : 'closed'}`}>

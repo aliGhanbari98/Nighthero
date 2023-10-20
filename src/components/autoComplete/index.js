@@ -41,6 +41,8 @@ const AutoComplete = ({
     [onChange],
   )
 
+  console.log({ value })
+
   return (
     <FormControl className={classes.root} fullWidth>
       <span>{label}</span>
@@ -63,11 +65,11 @@ const AutoComplete = ({
       <Autocomplete
         multiple={multiple}
         disablePortal={disablePortal}
-        value={value}
+        value={value || ''}
         options={options}
         disabled={disabled}
         getOptionLabel={option => option?.key}
-        defaultValue={defaultValue}
+        defaultValue={defaultValue || ''}
         onChange={(_, val, reason, details) => handleChange(val, reason)}
         renderInput={params => (
           <TextField {...params} placeholder={placeholder} variant="standard" />

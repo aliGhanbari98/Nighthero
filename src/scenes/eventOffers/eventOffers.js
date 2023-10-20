@@ -59,6 +59,8 @@ const EventOffers = ({
     setSelectedOffer(confirmedOffer)
   }, [confirmedOffer])
 
+  console.log({ selectedOffer })
+
   return (
     <div className={classes.container}>
       <div className="photoContainer">
@@ -110,7 +112,7 @@ const EventOffers = ({
           </div>
         ))}
       </div>
-      {selectedOffer.id !== 0 && (
+      {selectedOffer.id && (
         <div className="buttonContainer">
           <Button
             onClick={() => {

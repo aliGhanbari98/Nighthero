@@ -39,6 +39,10 @@ export const useStyle = makeStyles(theme => ({
       color: 'red',
     },
 
+    '& .MuiInputBase-root': {
+      paddingRight: '0px !important',
+    },
+
     '& .MuiButtonBase-root': {
       '& > svg': {
         fill: theme.palette.primary.main,
@@ -53,6 +57,7 @@ export const useStyle = makeStyles(theme => ({
       paddingLeft: 5,
       '& > input': {
         color: 'black',
+        width: '100% !important',
       },
     },
 
@@ -87,5 +92,9 @@ export const useStyle = makeStyles(theme => ({
       display: 'none',
     },
     '& .MuiInput-underline': {},
+    '& .MuiAutocomplete-endAdornment': {
+      display: 'none',
+      // width: 0,
+    },
   },
 }))

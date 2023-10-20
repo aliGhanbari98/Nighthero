@@ -7,6 +7,8 @@ export const useStyle = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    overflowY: 'auto',
+    paddingBottom: 80,
     '& > .photoContainer': {
       position: 'relative',
       width: '100%',

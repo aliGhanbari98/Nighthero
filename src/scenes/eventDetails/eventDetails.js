@@ -142,7 +142,6 @@ const EventDetails = ({
           {handleButtonVisibility() && (
             <Button
               onClick={() => {
-                console.log({ desktopMode })
                 setStep(prevValue => {
                   if (prevValue === 3) {
                     if (!desktopMode) navigate('/event-offers')

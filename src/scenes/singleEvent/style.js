@@ -95,11 +95,14 @@ export const useStyle = makeStyles(theme => ({
           width: '100%',
           display: 'flex',
           alignItems: 'center',
+          overflowX: 'auto',
+          paddingBottom: 5,
           '& > span': {
             textAlign: 'center',
             padding: 5,
             borderRadius: 7,
             maxHeight: 30,
+            fontSize: 12,
             whiteSpace: 'nowrap',
           },
           '& > .selected': {
@@ -372,10 +375,13 @@ export const useStyle = makeStyles(theme => ({
         '& > .servicesContainer': {
           display: 'flex',
           paddingTop: 5,
+          overflowX: 'auto',
+          paddingBottom: 5,
           '& > span': {
             borderRight: '1px solid grey',
             padding: '0 5px',
-            fontSize: 16,
+            fontSize: 15,
+            whiteSpace: 'nowrap',
           },
         },
       },

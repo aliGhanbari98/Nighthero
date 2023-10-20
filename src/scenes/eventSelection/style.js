@@ -264,6 +264,7 @@ export const useStyle = makeStyles(theme => ({
           flexDirection: 'column',
           flex: 1,
           overflowX: 'auto',
+          paddingBottom: ({ desktopMode }) => (desktopMode ? 50 : 0),
           borderRight: ({ desktopMode }) =>
             desktopMode ? '1px solid lightgrey' : '',
           paddingRight: ({ desktopMode }) => (desktopMode ? 10 : 0),
