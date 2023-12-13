@@ -133,6 +133,10 @@ export const useStyle = makeStyles(theme => ({
       boxShadow: '2px 2px 2px 2px rgba(0, 0, 255, .1);',
       padding: 10,
     },
+    '& > p': {
+      marginBottom: 0,
+      marginTop: 20,
+    },
     '& > .buttonContainer': {
       width: '100%',
       marginTop: 30,

@@ -15,6 +15,10 @@ const BookingMethod = ({
 }) => {
   const [fullName, setFullName] = useState(guestUserInfo.fullName)
   const [email, setEmail] = useState(guestUserInfo.email)
+  const [password, setPassword] = useState('')
+  const [status, setStatus] = useState('pending')
+  const [isNewUser, setIsNewUser] = useState(true)
+
   const [bookingMethod, setBookingMethod] = useState(0)
 
   const finalBookingMethod = bookingMethod || confirmedBookingMethod
@@ -81,7 +85,7 @@ const BookingMethod = ({
           )}
         </div>
       </div>
-      {finalBookingMethod !== 0 && (
+      {finalBookingMethod && (
         <div className="buttonContainer">
           <Button
             onClick={() => {
@@ -114,19 +118,40 @@ const BookingMethod = ({
             value={email}
             onChange={e => setEmail(e.target.value)}
           />
+          {status === 'confirming' && (
+            <p>
+              {isNewUser
+                ? `Abbiamo inviato un link di conferma alla tua email, utilizzalo per
+              ricevere la tua password`
+                : 'Sei già registrato, inserisci la password per accedere'}
+            </p>
+          )}
+          {status === 'confirming' && (
+            <input
+              className="password"
+              placeholder="Password"
+              type="password"
+              value={password}
+              onChange={e => setPassword(e.target.value)}
+            />
+          )}
           <div className="buttonContainer">
-            {fullName && email && (
-              <Button
-                label="Conferma"
-                onClick={() => {
-                  onConfirm({
-                    bookingMethod: finalBookingMethod,
-                    fullName,
-                    email,
-                  })
-                }}
-              />
-            )}
+            {fullName &&
+              email &&
+              (status === 'confirming' ? password : true) && (
+                <Button
+                  label={status === 'pending' ? 'Conferma' : 'Accedi'}
+                  onClick={() => {
+                    if (status === 'pending') setStatus('confirming')
+                    else
+                      onConfirm({
+                        bookingMethod: finalBookingMethod,
+                        fullName,
+                        email,
+                      })
+                  }}
+                />
+              )}
           </div>
         </div>
       </MyModal>

@@ -41,8 +41,6 @@ const AutoComplete = ({
     [onChange],
   )
 
-  console.log({ value })
-
   return (
     <FormControl className={classes.root} fullWidth>
       <span>{label}</span>

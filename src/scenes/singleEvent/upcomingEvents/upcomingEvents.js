@@ -127,7 +127,7 @@ const UpcomingEvents = ({ data, resData }) => {
             showFixedHeader && 'photoContainer_hidden'
           }`}
         >
-          <img alt="place" src="./images/danceNight.jpg" />
+          <img alt="place" src={resData?.image || './images/danceNight.jpg'} />
 
           <div className="infoContainer">
             <h2>Opposto</h2>
@@ -144,26 +144,6 @@ const UpcomingEvents = ({ data, resData }) => {
             description={item.description}
           />
         ))}
-        <Item
-          date="23 Febbario 2023"
-          image="./images/danceNight.jpg"
-          description="Serata techno con ospiti di grande successo come Amelie Lens e Carl Cox !"
-        />
-        <Item
-          date="23 Febbario 2023"
-          image="./images/danceNight.jpg"
-          description="Serata techno con ospiti di grande successo come Amelie Lens e Carl Cox !"
-        />
-        <Item
-          date="23 Febbario 2023"
-          image="./images/danceNight.jpg"
-          description="Serata techno con ospiti di grande successo come Amelie Lens e Carl Cox !"
-        />
-        <Item
-          date="23 Febbario 2023"
-          image="./images/danceNight.jpg"
-          description="Serata techno con ospiti di grande successo come Amelie Lens e Carl Cox !"
-        />
       </div>
     </div>
   )

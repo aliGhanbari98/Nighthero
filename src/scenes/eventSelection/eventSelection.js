@@ -297,7 +297,7 @@ const EventSelection = ({
                       } `}
                       onClick={() => onCategoriesChange(item)}
                     >
-                      <img alt="dance-night" src="./images/danceNight.jpg" />
+                      <img alt="dance-night" src={item.image} />
                       <span>{item.value}</span>
                     </div>
                   ))

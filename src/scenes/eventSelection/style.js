@@ -226,6 +226,7 @@ export const useStyle = makeStyles(theme => ({
               transform: 'translate(-50%, -50%)',
               color: 'white',
               fontWeight: 'bold',
+              textShadow: '2px 2px 4px rgba(0, 0, 0, 1)',
             },
           },
           '& > .firstItem': {

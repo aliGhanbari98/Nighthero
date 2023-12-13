@@ -89,7 +89,7 @@ const DesktopFilters = ({
           <div className="serataBody">
             {nightTypes?.map(type => (
               <div className="event">
-                <img alt="event" src={`./images/danceNight.jpg`} />
+                <img alt="event" src={type.image} />
                 <div>
                   <span>{type.value}</span>
                   <Switch
@@ -118,7 +118,7 @@ const DesktopFilters = ({
                         item.id === selectedCategories?.id ? 'selected' : ''
                       }
                       alt="dance-night"
-                      src="./images/danceNight.jpg"
+                      src={item.image}
                     />
                     <span>{item.value}</span>
                   </div>

@@ -25,7 +25,6 @@ export default () => {
     // check if the user is not logged in and then open the modal
     if (!infoModalIsOpen) setInfoModalIsOpen(true)
     else {
-      console.log({ bookingMethod })
       dispatch(loadSelectedBookingMethod(bookingMethod))
       dispatch(loadGuestUserInfo({ fullName, email }))
       navigate('/payment')
